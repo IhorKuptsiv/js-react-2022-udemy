@@ -6,3 +6,9 @@
 // https://www.codecademy.com/article/command-line-commands
 // https://githowto.com/uk
 
+// git init - ініціалізація
+// git config --local user.name "ihor" - додаєм імя для одного проекту локально
+// git config -- global user.email emeil@gmail.com - додаєм пошту глобально для всії проектів
+// git status - статус
+// git add -A - додаємо файли А всі
+// git commit -a -m  - створюєм коміт А всі файли М меседж
