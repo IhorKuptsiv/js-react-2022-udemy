@@ -13,3 +13,7 @@
 // git add -A - додаємо файли А всі
 // git commit -a -m  - створюєм коміт А всі файли М меседж
 // git chechout - скинути всі зміни до пепереднього коміта
+// git log - 
+// git remote add origin ....url
+// git push -u origin main(master)
+// git branch
