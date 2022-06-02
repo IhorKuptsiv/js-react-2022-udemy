@@ -1,10 +1,8 @@
 "use strict";
-// https://drive.google.com/file/d/1XjU5Bv9B795eQa2c0rfg_Hr11sFvWwgh/view
-// https://www.gitkraken.com/
+// https://docs.github.com/en/authentication/connecting-to-github-with-ssh
+// https://developer.mozilla.org/ru/docs/Web/HTTP/Overview
+// https://ourtechroom.com/tech/https-vs-ssh-in-git/
 
-//git clone URL - скачує проект
-
-// git pull - скачує зміни !!!
 
 
 
