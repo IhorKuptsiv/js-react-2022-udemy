@@ -1,5 +1,6 @@
 "use strict";
 // вложені цикли
+//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Statements/label
 
 for (let i = 0; i <3; i++){
    console.log(i);

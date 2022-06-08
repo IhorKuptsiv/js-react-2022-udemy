@@ -1,5 +1,6 @@
 "use strict";
 // цикли for /while
+//https://learn.javascript.ru/while-for
 
 let num = 50;
 
