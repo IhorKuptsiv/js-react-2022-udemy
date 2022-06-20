@@ -17,11 +17,13 @@
 
 
 const personalMovieDB = {
+    //свойства
     count: 0,
     movies: {},
     actors: {},
     genres: [],
     privat: false,
+    // метод
     start: function() {
         personalMovieDB.count = +prompt('Скільки фільмів ви переглянули?','');
        
@@ -61,11 +63,44 @@ const personalMovieDB = {
             console.log(personalMovieDB);
         }
         },
-    
+//2) Создать метод toggleVisibleMyDB, который при вызове будет проверять
+// свойство privat. Если оно false - он переключает его в
+//true, если true - переключает в false. Протестировать вместе с showMyDB.
+
+    toggleVisibleMyDB: function(){
+    if(personalMovieDB.privat){    
+        personalMovieDB.privat = false;  
+    }else{
+        personalMovieDB.privat = true;
+    }
+     
+    },
+
+// 3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" 
+// или оставлять пустую строку. 
+// Если он это сделал - возвращать его к этому же вопросу. После того,
+// как все жанры введены - 
+
+
     writeYourGenres: function(){
             for(let i = 1; i <= 3; i++){
-                personalMovieDB.genres[i-1] = prompt(`Ваш любимый жанр под номером ${i}`);
+                let genre = prompt(`Ваш любимый жанр под номером ${i}`);
+                if(genre === '' || genre == null){
+                    console.log(' Ви ввели некоректні дані або не ввели їх взагалі');
+                    i--;
+                }else{
+                    personalMovieDB.genres[i-1] = genre;
+                }
+
             }
+// при помощи метода forEach вывести в консоль сообщения в таком виде:
+// "Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
+            personalMovieDB.genres.forEach((item, i) => {
+            console.log(`Улюблений жанр ${i + 1} це ${item}`);
+            }
+            
+            );
+
         }
 };
 
