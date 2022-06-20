@@ -15,24 +15,20 @@
 "Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
 
 
-let numberOfFilms;
-//1) Первую часть задания повторить по уроку
-function start (){
- numberOfFilms = +prompt('Скільки фільмів ви переглянули?','');
-
- while(numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)){
-    numberOfFilms = +prompt('Скільки фільмів ви переглянули?','');
- }
-}
-start();
-
 
 const personalMovieDB = {
-    count: numberOfFilms,
+    count: 0,
     movies: {},
     actors: {},
     genres: [],
-    privat: false
+    privat: false,
+    start: function() {
+        personalMovieDB.count = +prompt('Скільки фільмів ви переглянули?','');
+       
+        while(personalMovieDB.count == '' || personalMovieDB.count == null || isNaN(personalMovieDB.count)){
+            personalMovieDB.count = +prompt('Скільки фільмів ви переглянули?','');
+        }
+       }
 };
 
 function rememberMyFilms(){
