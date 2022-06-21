@@ -19,7 +19,7 @@
 function createCounter() {
   let counter = 0;
 // function expresion - томущо поміщаємо в середину змінної
-  const myFunction = function(){
+  const myFunction = function(){debugger  
     //замикання яке є частиною функції myFunction
     // myFunction функція коли буде викликана , вона зберігає ссилку на counter
    counter = counter + 1; debugger
@@ -36,3 +36,20 @@ const c2 = increment(); debugger
 const c3 = increment(); debugger
 
 console.log(c1, c2, c3);
+
+// error - змінна msg доступна тільки в середині {}
+{
+  let msg = 'Hello';
+}
+console.log(msg);
+
+for(let i = 0; i < 9; i++){
+   for (let j = 0; j < 9; j++){
+    let num = 3;
+   }
+   //чому тут ми не може звернутись до num????
+   //num існує тільки в середині { }
+   // тобто в середині лексичного оточення цього циклу
+   // причому кожної її ітерації
+   console.log(num);
+}
