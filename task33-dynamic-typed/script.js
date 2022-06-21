@@ -48,3 +48,9 @@ switcher = 1;
 if (switcher){
   console.log('Working...');
 }
+
+//2
+console.log(typeof(Boolean('4')));
+
+//3 
+console.log(typeof(!!"24242"));
