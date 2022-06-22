@@ -1,55 +1,29 @@
 'use strict';
 
-//http://jsflow.org/docs/js-engines/
-//https://learn.javascript.ru/function-object
-// Замикання функцій та лексичне оточення
+'use strict';
+// •	Какое будет выведено значение: let x = 5; alert( x++ ); ?
+let x = 5; alert( x++ );
 
-// let number = 5; debugger
 
-// function logNumber() {
-//   let number = 4; debugger
-//   // number - ссилка на змінну, а не її значення(5) = 6
-//   console.log(number);
-// }
+// •	Чему равно такое выражение: [ ] + false - null + true ?
 
-// number = 6;
-// logNumber();debugger
+// •	Что выведет этот код: let y = 1; let x = y = 2; alert(x); ?
 
-//створюєм змінну createCounter - глобальної області, присвоюєм виповнення функції
-function createCounter() {
-  let counter = 0;
-// function expresion - томущо поміщаємо в середину змінної
-  const myFunction = function(){debugger  
-    //замикання яке є частиною функції myFunction
-    // myFunction функція коли буде викликана , вона зберігає ссилку на counter
-   counter = counter + 1; debugger
-   return counter;debugger
-  }
+// •	Чему равна сумма [ ] + 1 + 2?
 
-  return myFunction;
-}
-//викликаємо функцію createCounter а повернутись повинна myFunction функція
-// створюємо змінну increment яка буде undefined , глобальна, і виклики функції createCounter
-const increment = createCounter();
-const c1 = increment(); debugger
-const c2 = increment(); debugger
-const c3 = increment(); debugger
+// •	Что выведет этот код: alert( "1"[0] )?
 
-console.log(c1, c2, c3);
+// •	Чему равно 2 && 1 && null && 0 && undefined ?
 
-// error - змінна msg доступна тільки в середині {}
-{
-  let msg = 'Hello';
-}
-console.log(msg);
+// •	Есть ли разница между выражениями? !!( a && b ) и (a && b)?
 
-for(let i = 0; i < 9; i++){
-   for (let j = 0; j < 9; j++){
-    let num = 3;
-   }
-   //чому тут ми не може звернутись до num????
-   //num існує тільки в середині { }
-   // тобто в середині лексичного оточення цього циклу
-   // причому кожної її ітерації
-   console.log(num);
-}
+// •	Что выведет этот код: alert( null || 2 && 3 || 4 ); ?
+
+// •	a = [1, 2, 3]; b = [1, 2, 3]; Правда ли что a == b ?
+
+// •	Что выведет этот код: alert( +"Infinity" ); ?
+
+// •	Верно ли сравнение: "Ёжик" > "яблоко"?
+
+// •	Чему равно 0 || "" || 2 || undefined || true || falsе ?
+
