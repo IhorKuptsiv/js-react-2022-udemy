@@ -28,7 +28,8 @@ const movieDB = {
 
 const adv = document.querySelectorAll('.promo__adv img'),
       poster = document.querySelector('.promo__bg'),
-      genre = poster.querySelector('.promo__genre');
+      genre = poster.querySelector('.promo__genre'),
+      movieList = document.querySelector('.promo__interactive-list');
 
 adv.forEach(item =>{
     item.remove();
@@ -50,3 +51,18 @@ poster.style.backgroundImage = 'url("img/bg.jpg")';
 
 //4) Список фильмов на странице сформировать на основании данных из этого JS файла.
 //Отсортировать их по алфавиту 
+//5) Добавить нумерацию выведенных фильмов */
+//очищуємо список фільмів
+movieList.innerHTML = "";
+//сортуємо по алфавіту
+movieDB.movies.sort();
+
+//всі елементи знаходяться в movieDB в свойстві movies
+// перебираємо forEach, в середину поміщаємо колбек функцію з 2ма аргументами film, i
+movieDB.movies.forEach((film, i) => {
+   movieList.innerHTML += `
+   <li class="promo__interactive-item">${i + 1} ${film}
+     <div class="delete"></div>
+   </li>
+   `;
+});
