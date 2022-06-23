@@ -24,3 +24,18 @@ const movieDB = {
     ]
 };
 
+//1) Удалить все рекламные блоки со страницы (правая часть сайта)
+
+const adv = document.querySelectorAll('.promo__adv img');
+adv.forEach(item =>{
+    item.remove();
+});
+
+// adv.forEach(function (item){
+//     item.remove();
+// });
+
+
+
+
+
