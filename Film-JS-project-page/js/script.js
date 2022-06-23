@@ -29,6 +29,7 @@ const movieDB = {
 const adv = document.querySelectorAll('.promo__adv img'),
       poster = document.querySelector('.promo__bg'),
       genre = poster.querySelector('.promo__genre');
+
 adv.forEach(item =>{
     item.remove();
 });
@@ -44,7 +45,8 @@ genre.textContent = 'драма';
 
 //3) Изменить задний фон постера с фильмом на изображение "bg.jpg". Оно лежит в папке img.
 //Реализовать только при помощи JS
+poster.style.backgroundImage = 'url("img/bg.jpg")';
 
 
-
-
+//4) Список фильмов на странице сформировать на основании данных из этого JS файла.
+//Отсортировать их по алфавиту 
