@@ -3,11 +3,12 @@
 // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
 // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/values
-
+const birthday = Symbol('birthday');
 const user = { // всі флаги по замовчуванню ТРУ
     name: 'Alex',
     surname: 'Smith',
   //  birthday: '20/04/1993',
+ [birthday]:'20/04/2022',
     showMyPublicData: function() {
         console.log(`${this.name} ${this.surname}`);
     }
@@ -30,10 +31,12 @@ const user = { // всі флаги по замовчуванню ТРУ
 
 //--обєкт який ми використовуємо -  user і свойство флаги якого ми хочимо подивитись 'name'
 // console.log(Object.getOwnPropertyDescriptor(user, 'birthday'));
- console.log(Object.getOwnPropertyDescriptor(Math, 'PI'));
+ //console.log(Object.getOwnPropertyDescriptor(Math, 'PI'));
 
 Object.defineProperty(user, 'showMyPublicData', {enumerable:false});// виводимо тільки name surname без методів - {enumerable:false});
- for (let key in user) console.log(key)
+ for (let key in user) console.log(key);
+console.log(Object.getOwnPropertyDescriptor(user, birthday));
+
 
  Object.defineProperties(user, {
     name: {writable: false,
