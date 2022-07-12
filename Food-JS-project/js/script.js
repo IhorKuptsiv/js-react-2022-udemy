@@ -139,4 +139,53 @@ const timer = document.querySelector(selector),//timer
     }
 
     setClock('.timer', deadline);
+
+
+  //-----------------MODAL (popup)
+
+  const modalTrigger = document.querySelectorAll('[data-modal]'),
+        modal =document.querySelector('.modal'),
+        modalCloseBtn = document.querySelector('[data-close]');
+      
+        // функція відкриває модальне вікно
+      modalTrigger.forEach(btn => {
+        btn.addEventListener('click', () => {
+          modal.classList.add('show');
+          modal.classList.remove('hide');
+       // modal.classList.toggle('show');// реалізація через toggle
+  
+         // зупинити скрол сторінки при відкритому вікні попап
+         document.body.style.overflow = 'hidden';//CSS- overflow: hidden;
+        });
+      });
+      //псевдомасив
+
+    
+
+      //функція закриває вікно
+      function closeModal() {
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+      // modal.classList.toggle('show');// реалізація через toggle
+
+        // дозволити скролл  сторінки при Закритому вікні попап
+      document.body.style.overflow = '';//CSS- overflow по дефолту
+      }
+      //closeModal - функцію передаємо, працює після click
+      modalCloseBtn.addEventListener('click', closeModal);
+
+       // при кліці на пусте місце яке !modal_dialog закриваємо попап
+       modal.addEventListener('click', (e) => {
+          if (e.target === modal){
+           //closeModal - функцію викликаємо, працює після умови
+          closeModal();
+          }
+       });
+
+       // закриваємо попап при кліці на ESC - keydown
+       document.addEventListener('keydown',(e) => {
+       if(e.code === "Escape" && modal.classList.contains('show')){
+        closeModal();
+       }
+       });
         }); 
