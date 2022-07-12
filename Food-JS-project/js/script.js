@@ -147,21 +147,26 @@ const timer = document.querySelector(selector),//timer
         modal =document.querySelector('.modal'),
         modalCloseBtn = document.querySelector('[data-close]');
       
+
+        //функція відкриває вікно
+      function openModal(){
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+     // modal.classList.toggle('show');// реалізація через toggle
+
+       // зупинити скрол сторінки при відкритому вікні попап
+       document.body.style.overflow = 'hidden';//CSS- overflow: hidden;
+      //якщо користувач сам відкрив попап, через таймер попап не відкривається
+      clearInterval(modalTimerId);
+      }
+
         // функція відкриває модальне вікно
       modalTrigger.forEach(btn => {
-        btn.addEventListener('click', () => {
-          modal.classList.add('show');
-          modal.classList.remove('hide');
-       // modal.classList.toggle('show');// реалізація через toggle
-  
-         // зупинити скрол сторінки при відкритому вікні попап
-         document.body.style.overflow = 'hidden';//CSS- overflow: hidden;
-        });
+        btn.addEventListener('click', openModal);
       });
+
+      
       //псевдомасив
-
-    
-
       //функція закриває вікно
       function closeModal() {
         modal.classList.add('hide');
@@ -188,4 +193,18 @@ const timer = document.querySelector(selector),//timer
         closeModal();
        }
        });
-        }); 
+
+       // визиваємо модальне вікно ( попап) через деякий час
+       const modalTimerId = setTimeout(openModal, 5000);
+
+       // функція щоб показувати 1 раз після скролу до низу сторінки
+       function showModalByScroll (){
+        if( window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1){
+          openModal();
+          //removeEventListener - видаляємо Listener, попап показуємо 1 раз після скролу
+          window.removeEventListener('scroll', showModalByScroll);
+         }
+       }
+       window.addEventListener('scroll', showModalByScroll );      
+      
+      }); 
