@@ -1,5 +1,10 @@
 'use strict';
 
+//https://www.youtube.com/watch?v=M2c37drnnOA
+//https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+//https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord
+
+
 //MutationObserve - слідкувати зміни елемента ( не подій)
 const box = document.querySelector('.box');
 //включати редагування сторінки користувача 
@@ -19,4 +24,5 @@ observer.observe(box, {
     // childList - додавання видалленя текстові вузли, дочірних елементів
     childList: true
 });
+// перестаєм слідкувати
 observer.disconnect();
