@@ -195,7 +195,7 @@ const timer = document.querySelector(selector),//timer
        });
 
        // визиваємо модальне вікно ( попап) через деякий час
-       const modalTimerId = setTimeout(openModal, 5000);
+      // const modalTimerId = setTimeout(openModal, 5000);
 
        // функція щоб показувати 1 раз після скролу до низу сторінки
        function showModalByScroll (){
@@ -207,4 +207,90 @@ const timer = document.querySelector(selector),//timer
        }
        window.addEventListener('scroll', showModalByScroll );      
       
+      
+       // -----------------CLASS -- Використовуємо класи для карточок
+
+
+       class MenuCard{
+        constructor(src,alt,title,descr,price,parentSelector){
+          //свойства класу
+          this.src = src;
+          this.alt = alt;
+          this.title = title;
+          this.descr = descr;
+          this.price = price;
+          // в this.parent лежить DOM елемент
+          this.parent = document.querySelector(parentSelector);
+         // курс валют
+          this.transfer = 27;
+          this.changeToUAH();
+
+        }
+        //методи класу
+        changeToUAH(){
+          this.price = this.price * this.transfer;
+        }
+        //render метод щоб створити верстку
+        render(){
+          const element = document.createElement('div');
+          //innerHTML - динамічно створює структуру верстку
+          element.innerHTML = `
+          <div class="menu__item">
+                    <img src=${this.src} alt=${this.alt}>
+                    <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.descr}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    </div>
+                </div>
+          `;
+          //помістити елемент на сторінку
+          // получить батька
+          this.parent.append(element);
+
+        }
+
+       }
+
+       //створюєм новий обєкт і викликаємо метод render
+      //  const div = new MenuCard();
+      //  div.render();
+      // коли тільки 1 раз використовуємо
+       new MenuCard(
+         //аргументи в середину класу передаємо
+           "img/tabs/vegy.jpg",
+           "vegy",
+           'Меню "Фитнес"',
+           'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+           9,
+           '.menu .container'
+
+       ).render();
+
+
+       new MenuCard(
+        //аргументи в середину класу передаємо
+          "img/tabs/elite.jpg",
+          "elite",
+          'Меню "“Премиум”"',
+          'Меню "“Премиум”" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+          14,
+          '.menu .container'
+
+      ).render();
+
+      new MenuCard(
+        //аргументи в середину класу передаємо
+          "img/tabs/post.jpg",
+          "post",
+          'Меню "Постное"',
+          'Меню "Постное" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+          21,
+          '.menu .container'
+
+      ).render();
+
+
       }); 
