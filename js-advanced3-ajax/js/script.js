@@ -35,12 +35,17 @@ const inputUah = document.querySelector('#uah'),
        //2 - сенд метод викликаний, 3 - загрузка , 4- done
 
        // відслудковує статус нашого запиту в даний момент
-       request.addEventListener('readystatechange', () =>{
+      // request.addEventListener('readystatechange', () =>{
+       
+
+      //load спрацьовує 1 раз коли запит готовий
+       request.addEventListener('load', () =>{
         // якщо наш статус readyState = 4 тобто DONE
         // і наш status = 200 - ОК
-         if(request.readyState === 4 && request.status === 200){
+         //if(request.readyState === 4 && request.status === 200){
+          if(request.status === 200){
             console.log(request.response);//JSON --"current": { "usd": 74
-             // з JSON в звичайний обєкт
+             // parse з JSON в звичайний обєкт
              const data = JSON.parse(request.response);
              //рахуємо курс і округлюємо до 2 елементів після коми toFixed(2);
              inputUsd.value = (+inputUah.value / data.current.usd).toFixed(2);
