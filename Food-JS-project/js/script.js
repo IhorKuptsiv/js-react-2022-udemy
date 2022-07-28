@@ -308,5 +308,91 @@ const timer = document.querySelector(selector),//timer
 
       ).render();
 
+      // беремо форми і відправляємо дані з них на сервер
+      
+      //---------------------Forms
 
+      // получаємо всі форми по тегу form
+      const forms = document.querySelectorAll('form');
+
+      const message = {
+      loading : 'Завантаження',
+      success: 'Дякую! Скоро ми з Вами звяжемось',
+      failure: 'Ой! Щось пішло не так'
+      };
+
+      //під кожну форму підвязати функцію postData
+      
+      // функція відповідає за постинг даних
+      // буде приймати якусь форму/аргумент
+      
+     forms.forEach(item =>{
+      postData(item);
+     });
+      
+     function postData(form){
+      form.addEventListener('submit', (e) => {
+      //відміняємо стандартну поведінку браузера
+      // а саме обновлення сторінки при кліці на кнопку форми
+      e.preventDefault();
+
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = message.loading;
+      //відправляємо statusMessage в HTML 
+      form.append(statusMessage);
+      
+      const request = new XMLHttpRequest();
+      // завжди спочатку метод open щоб налаштувати запит
+      request.open('POST', 'server.php');
+
+      //!! коли звязка XMLHttpRequest і form-data нам заголовок не потрібен
+      // отримуємо заголовок
+    //  request.setRequestHeader('Content-type','multipart/form-data');
+   // для JSON потрібен заголовок
+    request.setRequestHeader('Content-type','application/json');
+      // всі дані які заповнив користувач
+      // отримуємо в JS і відправляємо на сервер
+      //1 варіант формат formData
+      //formData - обєкт який з форми сформує дані користувача
+       
+      // form звідки беремо дані
+      //в HTML файлі завжди повинен бути атрибут - name!!!!
+      //<input required placeholder="Ваше имя" name="name" 
+      
+      const formData = new FormData(form);
+
+      // перетворюємо обєкт formData в JSON
+      const object = {};
+      // перебираємо formData за допомогою forEach і все запишемо в object
+      formData.forEach(function(value, key){
+        object[key] = value;
+      });
+       // JSON.stringify - перетворюємо звичайний обєкт в JSON
+      const json = JSON.stringify(object);
+      request.send(json);
+      
+      // відправляємо дані
+      //request.send(formData);
+
+      request.addEventListener('load', () => {
+       if (request.status === 200) {
+        console.log(request.response);
+        statusMessage.textContent = message.success;
+        // після успішної відправки очіщаємо форму
+        form.reset();
+        //видаляємо повідомлення "Спасибі.." через 2сек
+        setTimeout(() => {
+          statusMessage.remove();
+        },2000);
+       }else{
+        statusMessage.textContent = message.failure;
+       }
+      });
+
+       //2 варіант формат JSON
+
+      });
+
+    }
       }); 
