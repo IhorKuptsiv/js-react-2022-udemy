@@ -144,8 +144,10 @@ const timer = document.querySelector(selector),//timer
   //-----------------MODAL (popup)
 
   const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal =document.querySelector('.modal'),
-        modalCloseBtn = document.querySelector('[data-close]');
+        modal =document.querySelector('.modal');
+
+        
+       // modalCloseBtn = document.querySelector('[data-close]')
       
 
         //функція відкриває вікно
@@ -177,11 +179,11 @@ const timer = document.querySelector(selector),//timer
       document.body.style.overflow = '';//CSS- overflow по дефолту
       }
       //closeModal - функцію передаємо, працює після click
-      modalCloseBtn.addEventListener('click', closeModal);
+     // modalCloseBtn.addEventListener('click', closeModal);
 
        // при кліці на пусте місце яке !modal_dialog закриваємо попап
        modal.addEventListener('click', (e) => {
-          if (e.target === modal){
+          if (e.target === modal || e.target.getAttribute('data-close') == ''){
            //closeModal - функцію викликаємо, працює після умови
           closeModal();
           }
@@ -195,7 +197,7 @@ const timer = document.querySelector(selector),//timer
        });
 
        // визиваємо модальне вікно ( попап) через деякий час
-      // const modalTimerId = setTimeout(openModal, 5000);
+       const modalTimerId = setTimeout(openModal, 50000);
 
        // функція щоб показувати 1 раз після скролу до низу сторінки
        function showModalByScroll (){
@@ -310,25 +312,28 @@ const timer = document.querySelector(selector),//timer
 
       // беремо форми і відправляємо дані з них на сервер
       
-      //---------------------Forms
+
+
+      //-------------------------------Forms
+
+      
 
       // получаємо всі форми по тегу form
       const forms = document.querySelectorAll('form');
-
-      const message = {
-      loading : 'Завантаження',
-      success: 'Дякую! Скоро ми з Вами звяжемось',
-      failure: 'Ой! Щось пішло не так'
-      };
+    const message = {
+        loading: 'img/form/spinner.svg',
+        success: 'Спасибо! Скоро мы с вами свяжемся',
+        failure: 'Что-то пошло не так...'
+    };
 
       //під кожну форму підвязати функцію postData
       
       // функція відповідає за постинг даних
       // буде приймати якусь форму/аргумент
       
-     forms.forEach(item =>{
-      postData(item);
-     });
+      forms.forEach(item => {
+        postData(item);
+    });
       
      function postData(form){
       form.addEventListener('submit', (e) => {
@@ -336,11 +341,18 @@ const timer = document.querySelector(selector),//timer
       // а саме обновлення сторінки при кліці на кнопку форми
       e.preventDefault();
 
-      const statusMessage = document.createElement('div');
-      statusMessage.classList.add('status');
-      statusMessage.textContent = message.loading;
+      let statusMessage = document.createElement('img');
+      //statusMessage.classList.add('status');
+      statusMessage.src = message.loading;
+      //statusMessage.textContent = message.loading;
+      statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `;
       //відправляємо statusMessage в HTML 
-      form.append(statusMessage);
+      //form.append(statusMessage);
+      //insertAdjacentElement - ставимо спінер після блоків
+      form.insertAdjacentElement('afterend', statusMessage);
       
       const request = new XMLHttpRequest();
       // завжди спочатку метод open щоб налаштувати запит
@@ -350,8 +362,8 @@ const timer = document.querySelector(selector),//timer
       // отримуємо заголовок
     //  request.setRequestHeader('Content-type','multipart/form-data');
    // для JSON потрібен заголовок
-    request.setRequestHeader('Content-type','application/json');
-      // всі дані які заповнив користувач
+   request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+   // всі дані які заповнив користувач
       // отримуємо в JS і відправляємо на сервер
       //1 варіант формат formData
       //formData - обєкт який з форми сформує дані користувача
@@ -367,26 +379,30 @@ const timer = document.querySelector(selector),//timer
       // перебираємо formData за допомогою forEach і все запишемо в object
       formData.forEach(function(value, key){
         object[key] = value;
-      });
+    });
        // JSON.stringify - перетворюємо звичайний обєкт в JSON
-      const json = JSON.stringify(object);
-      request.send(json);
-      
+       const json = JSON.stringify(object);
+
+       request.send(json);
+
       // відправляємо дані
       //request.send(formData);
 
       request.addEventListener('load', () => {
-       if (request.status === 200) {
-        console.log(request.response);
-        statusMessage.textContent = message.success;
+        if (request.status === 200) {
+            console.log(request.response);
+       // statusMessage.textContent = message.success;
+       showThanksModal(message.success);
+       statusMessage.remove();
         // після успішної відправки очіщаємо форму
         form.reset();
         //видаляємо повідомлення "Спасибі.." через 2сек
-        setTimeout(() => {
-          statusMessage.remove();
-        },2000);
+      //  setTimeout(() => {
+         
+     //   },2000);
        }else{
-        statusMessage.textContent = message.failure;
+        //statusMessage.textContent = message.failure;
+        showThanksModal(message.failure);
        }
       });
 
@@ -395,4 +411,32 @@ const timer = document.querySelector(selector),//timer
       });
 
     }
-      }); 
+     
+    // красиві форми
+    function showThanksModal(message) {
+      const prevModalDialog = document.querySelector('.modal__dialog');
+      prevModalDialog.classList.add('hide');// скриваємо контент
+      openModal();// відкривання модальних вікон
+
+      const thanksModal = document.createElement('div');
+        thanksModal.classList.add('modal__dialog');
+      // верстка в вікні
+      thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class="modal__close" data-close>×</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
+
+      //помістити на сторінку HTML
+      document.querySelector('.modal').append(thanksModal);
+      
+      // якщо користувач повторно відкриє вікно
+      setTimeout(() => {
+        thanksModal.remove();
+        prevModalDialog.classList.add('show');
+        prevModalDialog.classList.remove('hide');
+        closeModal();
+    }, 4000);
+}
+});
