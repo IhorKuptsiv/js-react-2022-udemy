@@ -340,7 +340,7 @@ const timer = document.querySelector(selector),//timer
       //відміняємо стандартну поведінку браузера
       // а саме обновлення сторінки при кліці на кнопку форми
       e.preventDefault();
-
+      //Спінер
       let statusMessage = document.createElement('img');
       //statusMessage.classList.add('status');
       statusMessage.src = message.loading;
@@ -354,15 +354,16 @@ const timer = document.querySelector(selector),//timer
       //insertAdjacentElement - ставимо спінер після блоків
       form.insertAdjacentElement('afterend', statusMessage);
       
-      const request = new XMLHttpRequest();
+      // замінюємо XMLHttpRequest на fetch
+     // const request = new XMLHttpRequest();
       // завжди спочатку метод open щоб налаштувати запит
-      request.open('POST', 'server.php');
-
+      //request.open('POST', 'server.php');
+    
       //!! коли звязка XMLHttpRequest і form-data нам заголовок не потрібен
       // отримуємо заголовок
     //  request.setRequestHeader('Content-type','multipart/form-data');
    // для JSON потрібен заголовок
-   request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  // request.setRequestHeader('Content-type', 'application/json);// замінили на fetch
    // всі дані які заповнив користувач
       // отримуємо в JS і відправляємо на сервер
       //1 варіант формат formData
@@ -372,39 +373,61 @@ const timer = document.querySelector(selector),//timer
       //в HTML файлі завжди повинен бути атрибут - name!!!!
       //<input required placeholder="Ваше имя" name="name" 
       
+      // збираємо всі дані за допомогою FormData з нашої форми
       const formData = new FormData(form);
 
       // перетворюємо обєкт formData в JSON
       const object = {};
       // перебираємо formData за допомогою forEach і все запишемо в object
-      formData.forEach(function(value, key){
+     formData.forEach(function(value, key){
         object[key] = value;
     });
        // JSON.stringify - перетворюємо звичайний обєкт в JSON
-       const json = JSON.stringify(object);
+     //  const json = JSON.stringify(object);
 
-       request.send(json);
+     //  request.send(json);
+
+     // за допомогою fetch відправляємо ці дані
+     fetch('server.php', {// куди
+      method: "POST",// яким образом
+       headers:{ // і що саме відправляємо
+         'Content-type': 'application/json'
+       },
+      body: JSON.stringify(object) //formData
+      // опрацювати результат запиту fetch за допомогою Promise
+    }).then(data => data.text())// що приходить від сервера
+    .then(data => {// з сервера повертається якась data
+   // колбек функція
+   console.log(data);// в консоль що певернув сервер
+   showThanksModal(message.success);// запуск функц. showThanksModal
+   statusMessage.remove();// спінер видаляємо
+    }).catch(() => { // якщо помилка
+      showThanksModal(message.failure);
+    }).finally(() => {// дії які виконуються завжди
+      form.reset();// очистка форми
+    });
+
 
       // відправляємо дані
       //request.send(formData);
 
-      request.addEventListener('load', () => {
-        if (request.status === 200) {
-            console.log(request.response);
+      // request.addEventListener('load', () => {
+      //   if (request.status === 200) {
+      //       console.log(request.response);
        // statusMessage.textContent = message.success;
-       showThanksModal(message.success);
-       statusMessage.remove();
+      //  showThanksModal(message.success);
+      //  statusMessage.remove();
         // після успішної відправки очіщаємо форму
-        form.reset();
+       // form.reset();
         //видаляємо повідомлення "Спасибі.." через 2сек
       //  setTimeout(() => {
          
      //   },2000);
-       }else{
+      // }else{
         //statusMessage.textContent = message.failure;
-        showThanksModal(message.failure);
-       }
-      });
+     //   showThanksModal(message.failure);
+    //   }
+    //  });
 
        //2 варіант формат JSON
 
@@ -439,4 +462,21 @@ const timer = document.querySelector(selector),//timer
         closeModal();
     }, 4000);
 }
+
+//---------------------Fetch API
+//https://jsonplaceholder.typicode.com/
+
+//get запит, получаємо дані, обробляємо їх
+//GET
+// fetch('https://jsonplaceholder.typicode.com/posts',{
+//   //POST
+//  method:"POST",
+//  body: JSON.stringify({name:'Alex'}),
+//  headers:{
+//   'Content-type':'application/json'
+//  }
+// })
+// //повертається проміс
+//   .then(response => response.json())// получаємо відповідь response в json форматі
+//   .then(json => console.log(json));//{userId: 1, id: 1, title: 'delectus aut autem', completed: false}
 });
