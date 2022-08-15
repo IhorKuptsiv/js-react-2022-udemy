@@ -479,4 +479,12 @@ const timer = document.querySelector(selector),//timer
 // //повертається проміс
 //   .then(response => response.json())// получаємо відповідь response в json форматі
 //   .then(json => console.log(json));//{userId: 1, id: 1, title: 'delectus aut autem', completed: false}
+
+
+
+//------------npm. JSON-server
+fetch('http://localhost:3000')
+.then(data => data.json())
+.then(res => console.log(res));
+
 });
