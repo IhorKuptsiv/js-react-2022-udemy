@@ -266,49 +266,69 @@ const timer = document.querySelector(selector),//timer
 
        }
 
+       const getResource = async (url) => {
+        const res = await fetch(url);
+
+        if(!res.ok){
+         // обєкт помилки
+         throw  new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+         
+        return await res.json();
+  
+      };
+
+      getResource(' http://localhost:3000/posts')
+      .then(data => {
+        //деструктуризація обєкту з db.json 
+        data.forEach(({img,altimg, title, descr, price}) => {
+          new MenuCard(img,altimg, title, descr, price, 'menu.container').render();// конструктор буде створюватись стільки раз скільки з сервера приходить
+
+        });
+      });
        //створюєм новий обєкт і викликаємо метод render
       //  const div = new MenuCard();
       //  div.render();
       // коли тільки 1 раз використовуємо
-       new MenuCard(
-         //аргументи в середину класу передаємо
-           "img/tabs/vegy.jpg",
-           "vegy",
-           'Меню "Фитнес"',
-           'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-           9,
-           '.menu .container',
-           'menu__item',
-           'big' //<div class="menu__item big">
+      //  new MenuCard(
+      //    //аргументи в середину класу передаємо
+      //      "img/tabs/vegy.jpg",
+      //      "vegy",
+      //      'Меню "Фитнес"',
+      //      'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+      //      9,
+      //      '.menu .container',
+      //      'menu__item',
+      //      'big' //<div class="menu__item big">
 
-       ).render();
-
-
-       new MenuCard(
-        //аргументи в середину класу передаємо
-          "img/tabs/elite.jpg",
-          "elite",
-          'Меню "“Премиум”"',
-          'Меню "“Премиум”" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-          14,
-          '.menu .container',
-          'menu__item'
+      //  ).render();
 
 
-      ).render();
-
-      new MenuCard(
-        //аргументи в середину класу передаємо
-          "img/tabs/post.jpg",
-          "post",
-          'Меню "Постное"',
-          'Меню "Постное" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-          21,
-          '.menu .container',
-          'menu__item'
+      //  new MenuCard(
+      //   //аргументи в середину класу передаємо
+      //     "img/tabs/elite.jpg",
+      //     "elite",
+      //     'Меню "“Премиум”"',
+      //     'Меню "“Премиум”" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+      //     14,
+      //     '.menu .container',
+      //     'menu__item'
 
 
-      ).render();
+      // ).render();
+
+      // new MenuCard(
+      //   //аргументи в середину класу передаємо
+      //     "img/tabs/post.jpg",
+      //     "post",
+      //     'Меню "Постное"',
+      //     'Меню "Постное" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+      //     21,
+      //     '.menu .container',
+      //     'menu__item'
+
+
+      // ).render();
 
       // беремо форми і відправляємо дані з них на сервер
       
@@ -332,10 +352,34 @@ const timer = document.querySelector(selector),//timer
       // буде приймати якусь форму/аргумент
       
       forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
+
+// url i data - дані які будуть поститись в функц.
+//1. postData налаштовує запит
+//2.  фетчить, тобто відправляє запит на серв, получає відповідь
+//3. перетворює відповідь в json
+
+// весь код асинхронний, коли запускається функц.postData
+// ми робимо запит який іде на серв(асинхронний)
+// але з фетча з серв нам ще нічого не повернулось, буде помилка
+//async - в середині функції буде асинхр оператор
+//await - ставимо перед тим де потрібно дочекатись відповіді
+// async await завжди в ПАРІ
+    const postData = async (url, data) => {
+      // в середині поміщаємо проміс від фетча
+      const res = await fetch(url, {
+        method: "POST",// яким образом
+        headers:{ // і що саме відправляємо
+          'Content-type': 'application/json'
+        },
+       body: data
+      });
+      return await res.json();//проміс 
+
+    };
       
-     function postData(form){
+     function bindPostData(form){
       form.addEventListener('submit', (e) => {
       //відміняємо стандартну поведінку браузера
       // а саме обновлення сторінки при кліці на кнопку форми
@@ -377,25 +421,33 @@ const timer = document.querySelector(selector),//timer
       const formData = new FormData(form);
 
       // перетворюємо обєкт formData в JSON
-      const object = {};
+    //  const object = {};
       // перебираємо formData за допомогою forEach і все запишемо в object
-     formData.forEach(function(value, key){
-        object[key] = value;
-    });
+     //formData.forEach(function(value, key){
+    //    object[key] = value;
+   // });
+
+   //метод entries повертає масив власних властивостей обєкта
+   const json  = JSON.stringify(Object.fromEntries(formData.entries()));
+  // const obj = {a:23, b:50};
+  // console.log(Object.entries(obj));//[ [ 'a', 23 ], [ 'b', 50 ] ]
+
        // JSON.stringify - перетворюємо звичайний обєкт в JSON
      //  const json = JSON.stringify(object);
 
      //  request.send(json);
 
      // за допомогою fetch відправляємо ці дані
-     fetch('server.php', {// куди
-      method: "POST",// яким образом
-       headers:{ // і що саме відправляємо
-         'Content-type': 'application/json'
-       },
-      body: JSON.stringify(object) //formData
+   //  fetch('server.php', {// куди
+     // method: "POST",// яким образом
+      // headers:{ // і що саме відправляємо
+      //   'Content-type': 'application/json'
+    //   },
+   //   body: JSON.stringify(object) //formData
       // опрацювати результат запиту fetch за допомогою Promise
-    }).then(data => data.text())// що приходить від сервера
+   // })
+    postData('http://localhost:3000/posts', json)
+    //.then(data => data.text())// що приходить від сервера
     .then(data => {// з сервера повертається якась data
    // колбек функція
    console.log(data);// в консоль що певернув сервер
@@ -483,7 +535,7 @@ const timer = document.querySelector(selector),//timer
 
 
 //------------npm. JSON-server
-fetch('http://localhost:3000')
+fetch('http://localhost:3000/posts')
 .then(data => data.json())
 .then(res => console.log(res));
 
