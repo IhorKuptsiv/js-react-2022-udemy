@@ -146,10 +146,6 @@ const timer = document.querySelector(selector),//timer
   const modalTrigger = document.querySelectorAll('[data-modal]'),
         modal =document.querySelector('.modal');
 
-        
-       // modalCloseBtn = document.querySelector('[data-close]')
-      
-
         //функція відкриває вікно
       function openModal(){
         modal.classList.add('show');
@@ -173,13 +169,12 @@ const timer = document.querySelector(selector),//timer
       function closeModal() {
         modal.classList.add('hide');
         modal.classList.remove('show');
-      // modal.classList.toggle('show');// реалізація через toggle
+     
 
         // дозволити скролл  сторінки при Закритому вікні попап
       document.body.style.overflow = '';//CSS- overflow по дефолту
       }
-      //closeModal - функцію передаємо, працює після click
-     // modalCloseBtn.addEventListener('click', closeModal);
+    
 
        // при кліці на пусте місце яке !modal_dialog закриваємо попап
        modal.addEventListener('click', (e) => {
@@ -211,7 +206,6 @@ const timer = document.querySelector(selector),//timer
       
       
        // -----------------CLASS -- Використовуємо класи для карточок
-
 
        class MenuCard{
         constructor(src,alt,title,descr,price,parentSelector, ...classes){
@@ -261,82 +255,20 @@ const timer = document.querySelector(selector),//timer
           //помістити елемент на сторінку
           // получить батька
           this.parent.append(element);
-
         }
-
        }
 
-       const getResource = async (url) => {
-        const res = await fetch(url);
 
-        if(!res.ok){
-         // обєкт помилки
-         throw  new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
-         
-        return await res.json();
-  
-      };
-
-      getResource(' http://localhost:3000/posts')
+       getResource('http://localhost:3000/menu')
       .then(data => {
         //деструктуризація обєкту з db.json 
-        data.forEach(({img,altimg, title, descr, price}) => {
-          new MenuCard(img,altimg, title, descr, price, 'menu.container').render();// конструктор буде створюватись стільки раз скільки з сервера приходить
-
-        });
+        data.forEach(({img, altimg, title, descr, price}) => {
+          new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
       });
-       //створюєм новий обєкт і викликаємо метод render
-      //  const div = new MenuCard();
-      //  div.render();
-      // коли тільки 1 раз використовуємо
-      //  new MenuCard(
-      //    //аргументи в середину класу передаємо
-      //      "img/tabs/vegy.jpg",
-      //      "vegy",
-      //      'Меню "Фитнес"',
-      //      'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-      //      9,
-      //      '.menu .container',
-      //      'menu__item',
-      //      'big' //<div class="menu__item big">
-
-      //  ).render();
-
-
-      //  new MenuCard(
-      //   //аргументи в середину класу передаємо
-      //     "img/tabs/elite.jpg",
-      //     "elite",
-      //     'Меню "“Премиум”"',
-      //     'Меню "“Премиум”" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-      //     14,
-      //     '.menu .container',
-      //     'menu__item'
-
-
-      // ).render();
-
-      // new MenuCard(
-      //   //аргументи в середину класу передаємо
-      //     "img/tabs/post.jpg",
-      //     "post",
-      //     'Меню "Постное"',
-      //     'Меню "Постное" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-      //     21,
-      //     '.menu .container',
-      //     'menu__item'
-
-
-      // ).render();
-
-      // беремо форми і відправляємо дані з них на сервер
-      
+  });
 
 
       //-------------------------------Forms
-
-      
 
       // получаємо всі форми по тегу form
       const forms = document.querySelectorAll('form');
@@ -378,6 +310,19 @@ const timer = document.querySelector(selector),//timer
       return await res.json();//проміс 
 
     };
+
+    
+    async function getResource(url) {
+      let res = await fetch(url);
+
+      if(!res.ok){
+       // обєкт помилки
+       throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+      }
+       
+      return await res.json();
+
+    }
       
      function bindPostData(form){
       form.addEventListener('submit', (e) => {
@@ -386,67 +331,23 @@ const timer = document.querySelector(selector),//timer
       e.preventDefault();
       //Спінер
       let statusMessage = document.createElement('img');
-      //statusMessage.classList.add('status');
       statusMessage.src = message.loading;
-      //statusMessage.textContent = message.loading;
       statusMessage.style.cssText = `
                 display: block;
                 margin: 0 auto;
             `;
       //відправляємо statusMessage в HTML 
-      //form.append(statusMessage);
+    
       //insertAdjacentElement - ставимо спінер після блоків
       form.insertAdjacentElement('afterend', statusMessage);
-      
-      // замінюємо XMLHttpRequest на fetch
-     // const request = new XMLHttpRequest();
-      // завжди спочатку метод open щоб налаштувати запит
-      //request.open('POST', 'server.php');
-    
-      //!! коли звязка XMLHttpRequest і form-data нам заголовок не потрібен
-      // отримуємо заголовок
-    //  request.setRequestHeader('Content-type','multipart/form-data');
-   // для JSON потрібен заголовок
-  // request.setRequestHeader('Content-type', 'application/json);// замінили на fetch
-   // всі дані які заповнив користувач
-      // отримуємо в JS і відправляємо на сервер
-      //1 варіант формат formData
-      //formData - обєкт який з форми сформує дані користувача
-       
-      // form звідки беремо дані
-      //в HTML файлі завжди повинен бути атрибут - name!!!!
-      //<input required placeholder="Ваше имя" name="name" 
-      
-      // збираємо всі дані за допомогою FormData з нашої форми
-      const formData = new FormData(form);
+        
+            const formData = new FormData(form);
 
-      // перетворюємо обєкт formData в JSON
-    //  const object = {};
-      // перебираємо formData за допомогою forEach і все запишемо в object
-     //formData.forEach(function(value, key){
-    //    object[key] = value;
-   // });
 
    //метод entries повертає масив власних властивостей обєкта
-   const json  = JSON.stringify(Object.fromEntries(formData.entries()));
-  // const obj = {a:23, b:50};
-  // console.log(Object.entries(obj));//[ [ 'a', 23 ], [ 'b', 50 ] ]
+   const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-       // JSON.stringify - перетворюємо звичайний обєкт в JSON
-     //  const json = JSON.stringify(object);
-
-     //  request.send(json);
-
-     // за допомогою fetch відправляємо ці дані
-   //  fetch('server.php', {// куди
-     // method: "POST",// яким образом
-      // headers:{ // і що саме відправляємо
-      //   'Content-type': 'application/json'
-    //   },
-   //   body: JSON.stringify(object) //formData
-      // опрацювати результат запиту fetch за допомогою Promise
-   // })
-    postData('http://localhost:3000/posts', json)
+   postData('http://localhost:3000/requests', json)
     //.then(data => data.text())// що приходить від сервера
     .then(data => {// з сервера повертається якась data
    // колбек функція
@@ -458,30 +359,6 @@ const timer = document.querySelector(selector),//timer
     }).finally(() => {// дії які виконуються завжди
       form.reset();// очистка форми
     });
-
-
-      // відправляємо дані
-      //request.send(formData);
-
-      // request.addEventListener('load', () => {
-      //   if (request.status === 200) {
-      //       console.log(request.response);
-       // statusMessage.textContent = message.success;
-      //  showThanksModal(message.success);
-      //  statusMessage.remove();
-        // після успішної відправки очіщаємо форму
-       // form.reset();
-        //видаляємо повідомлення "Спасибі.." через 2сек
-      //  setTimeout(() => {
-         
-     //   },2000);
-      // }else{
-        //statusMessage.textContent = message.failure;
-     //   showThanksModal(message.failure);
-    //   }
-    //  });
-
-       //2 варіант формат JSON
 
       });
 
@@ -502,7 +379,6 @@ const timer = document.querySelector(selector),//timer
                 <div class="modal__title">${message}</div>
             </div>
         `;
-
       //помістити на сторінку HTML
       document.querySelector('.modal').append(thanksModal);
       
@@ -514,29 +390,4 @@ const timer = document.querySelector(selector),//timer
         closeModal();
     }, 4000);
 }
-
-//---------------------Fetch API
-//https://jsonplaceholder.typicode.com/
-
-//get запит, получаємо дані, обробляємо їх
-//GET
-// fetch('https://jsonplaceholder.typicode.com/posts',{
-//   //POST
-//  method:"POST",
-//  body: JSON.stringify({name:'Alex'}),
-//  headers:{
-//   'Content-type':'application/json'
-//  }
-// })
-// //повертається проміс
-//   .then(response => response.json())// получаємо відповідь response в json форматі
-//   .then(json => console.log(json));//{userId: 1, id: 1, title: 'delectus aut autem', completed: false}
-
-
-
-//------------npm. JSON-server
-fetch('http://localhost:3000/posts')
-.then(data => data.json())
-.then(res => console.log(res));
-
 });
