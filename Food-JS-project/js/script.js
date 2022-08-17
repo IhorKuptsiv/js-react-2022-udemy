@@ -398,4 +398,63 @@ const timer = document.querySelector(selector),//timer
         closeModal();
     }, 4000);
 }
+
+//--------------------Slider
+
+//отримання елементів з сторінки HTML
+const slides = document.querySelectorAll('.offer__slide'),
+      prev = document.querySelector('.offer__slider-prev'),
+      next = document.querySelector('.offer__slider-next'),
+      total = document.querySelector('#total'),
+      current = document.querySelector('#current');
+
+//індекс оприділяє положення слайду, 1й слайд - 1
+let slideIndex = 1;
+showSlides(slideIndex);
+
+if (slides.length < 10){
+  //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
+  total.textContent = `0${slides.length}`;
+}else{
+  // більше 10 слайдів, просто показуєм кількість слайдів
+  total.textContent = slides.length;
+}
+
+//функція по показу і скриванню слайдів
+function showSlides(n) {
+  //після остан. слайду відкривається 1ший (вправо)
+     if(n > slides.length){
+      slideIndex = 1;
+     }
+     // з 1го слайду на останній (вліво)
+     if(n < 1){
+      slideIndex = slides.length;
+     }
+   // приховати всі слайди, показати тільки 1
+   slides.forEach(item => item.style.display = 'none');
+   slides[slideIndex - 1].style.display = 'block';
+
+   //поточний слайд
+   if (slides.length < 10){
+    //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
+    current.textContent = `0${slideIndex}`;
+  }else{
+    // більше 10 слайдів, просто показуєм кількість слайдів
+    current.textContent = slideIndex;
+  }
+
+}
+  // змінюємо наш слайд індекс
+  function plusSlides(n){
+    showSlides(slideIndex += n);
+   }
+   // оброботчики подій на prev, next
+   prev.addEventListener('click', () => {
+    plusSlides(-1);
+   });
+   next.addEventListener('click', () => {
+    plusSlides (1);
+   });
+
+
 });
