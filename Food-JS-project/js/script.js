@@ -259,12 +259,20 @@ const timer = document.querySelector(selector),//timer
        }
 
 
-       getResource('http://localhost:3000/menu')
-      .then(data => {
-        //деструктуризація обєкту з db.json 
-        data.forEach(({img, altimg, title, descr, price}) => {
-          new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
-      });
+  //      getResource('http://localhost:3000/menu')
+  //     .then(data => {
+  //       //деструктуризація обєкту з db.json 
+   //     data.forEach(({img, altimg, title, descr, price}) => {
+   //        new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+   //    });
+  // });
+
+  //------------------Axios
+  axios.get('http://localhost:3000/comments')
+  .then(data => {
+    data.data.forEach(({img, altimg, title, descr, price}) => {
+      new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+  });
   });
 
 
