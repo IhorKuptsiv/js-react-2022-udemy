@@ -400,61 +400,168 @@ const timer = document.querySelector(selector),//timer
 }
 
 //--------------------Slider
+// ----------------------1 варіант
+
+//отримання елементів з сторінки HTML
+// const slides = document.querySelectorAll('.offer__slide'),
+//       prev = document.querySelector('.offer__slider-prev'),
+//       next = document.querySelector('.offer__slider-next'),
+//       total = document.querySelector('#total'),
+//       current = document.querySelector('#current');
+
+
+// //індекс оприділяє положення слайду, 1й слайд - 1
+// let slideIndex = 1;
+// showSlides(slideIndex);
+
+// if (slides.length < 10){
+//   //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
+//   total.textContent = `0${slides.length}`;
+// }else{
+//   // більше 10 слайдів, просто показуєм кількість слайдів
+//   total.textContent = slides.length;
+// }
+
+// //функція по показу і скриванню слайдів
+// function showSlides(n) {
+//   //після остан. слайду відкривається 1ший (вправо)
+//      if(n > slides.length){
+//       slideIndex = 1;
+//      }
+//      // з 1го слайду на останній (вліво)
+//      if(n < 1){
+//       slideIndex = slides.length;
+//      }
+//    // приховати всі слайди, показати тільки 1
+//    slides.forEach(item => item.style.display = 'none');
+//    slides[slideIndex - 1].style.display = 'block';
+
+//    //поточний слайд
+//    if (slides.length < 10){
+//     //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
+//     current.textContent = `0${slideIndex}`;
+//   }else{
+//     // більше 10 слайдів, просто показуєм кількість слайдів
+//     current.textContent = slideIndex;
+//   }
+
+// }
+//   // змінюємо наш слайд індекс
+//   function plusSlides(n){
+//     showSlides(slideIndex += n);
+//    }
+//    // оброботчики подій на prev, next
+//    prev.addEventListener('click', () => {
+//     plusSlides(-1);
+//    });
+//    next.addEventListener('click', () => {
+//     plusSlides (1);
+//    });
+
+
+//-------------------------2 варіант Slider
 
 //отримання елементів з сторінки HTML
 const slides = document.querySelectorAll('.offer__slide'),
       prev = document.querySelector('.offer__slider-prev'),
       next = document.querySelector('.offer__slider-next'),
       total = document.querySelector('#total'),
-      current = document.querySelector('#current');
-
-//індекс оприділяє положення слайду, 1й слайд - 1
+      current = document.querySelector('#current'),
+      slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+      slidesField = document.querySelector('.offer__slider-inner'),
+      // ширина слайду
+      width = window.getComputedStyle(slidesWrapper).width;
 let slideIndex = 1;
-showSlides(slideIndex);
+let offset = 0; //відступ
 
-if (slides.length < 10){
-  //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
-  total.textContent = `0${slides.length}`;
-}else{
-  // більше 10 слайдів, просто показуєм кількість слайдів
+//нумерація
+ if (slides.length < 10){
+   //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
+   total.textContent = `0${slides.length}`;
+   current.textContent = `0${slideIndex}`;
+ }else{
+   // більше 10 слайдів, просто показуєм кількість слайдів
   total.textContent = slides.length;
+  current.textContent = slideIndex;
+ }
+
+// задаємо для блоку ширину. 100 процентів і к-сть слайдів
+slidesField.style.width = 100 * slides.length + '%';
+//flex - всі фото в 1 рядок
+slidesField.style.display = 'flex';
+// transition - плавне переключення фото
+slidesField.style.transition = '0.5s all';
+// overflow ='hidden' - показуємо тільки 1 фото 
+slidesWrapper.style.overflow ='hidden';
+
+slides.forEach(slide => {
+slide.style.width = width;
+});
+
+//обробник подій NEXT ------->>
+next.addEventListener('click', () => {
+  //кінцевий варіант зміщення
+  //наш відступ offset буде рівний ширині слайдера width * кількість слайдів -1
+  //500px - в число і відрзати 2 символи, забираємо в числа букви PX slice(0, width.length - 2)
+  if(offset == +width.slice(0, width.length - 2) * (slides.length - 1)){
+    //означ. що до листали до кінця і повернутись на початок
+offset = 0;
+  }else{
+    // якщо не останній слайд --> зміщення
+  offset += +width.slice(0, width.length - 2);
+  }
+//коли клікаємо вперед, здвигаємо слайд
+//`translateX(-${offset})` - зміщуємо в ліво фото
+slidesField.style.transform = `translateX(-${offset}px)`;
+
+//нумерація
+// якщо дойшов до кінця слайдера переходимо на початок тобто 1
+if(slideIndex == slides.length){
+  slideIndex = 1;
+}else{
+  slideIndex++;
 }
 
-//функція по показу і скриванню слайдів
-function showSlides(n) {
-  //після остан. слайду відкривається 1ший (вправо)
-     if(n > slides.length){
-      slideIndex = 1;
-     }
-     // з 1го слайду на останній (вліво)
-     if(n < 1){
-      slideIndex = slides.length;
-     }
-   // приховати всі слайди, показати тільки 1
-   slides.forEach(item => item.style.display = 'none');
-   slides[slideIndex - 1].style.display = 'block';
+if(slides.length <10){
+  current.textContent =`0${slideIndex}`;
+}else{
+  current.textContent = slideIndex;
+}
+});
 
-   //поточний слайд
-   if (slides.length < 10){
-    //менеше 10 слайдів додаємо 0 перед числом 07 01 02 тд
-    current.textContent = `0${slideIndex}`;
+//обробник подій PREVIOS <<<-------
+prev.addEventListener('click', () => {
+  //0 - коли перший слайд 
+  if(offset == 0){
+  // переміщуємось в кінець
+  //в offset записуємо останній слайд
+offset = +width.slice(0, width.length - 2) * (slides.length - 1)
   }else{
-    // більше 10 слайдів, просто показуєм кількість слайдів
-    current.textContent = slideIndex;
+    //якщо був не перший слайд, віднімаємо 
+  offset -= +width.slice(0, width.length - 2);
   }
 
+slidesField.style.transform = `translateX(-${offset}px)`;
+
+//нумерація
+//коли на 1му слайді знаходимось
+if(slideIndex == 1){
+  //будемо зміщуватись в кінець
+  slideIndex = slides.length;
+}else{
+  slideIndex--;
 }
-  // змінюємо наш слайд індекс
-  function plusSlides(n){
-    showSlides(slideIndex += n);
-   }
-   // оброботчики подій на prev, next
-   prev.addEventListener('click', () => {
-    plusSlides(-1);
-   });
-   next.addEventListener('click', () => {
-    plusSlides (1);
-   });
+
+if(slides.length <10){
+  current.textContent =`0${slideIndex}`;
+}else{
+  current.textContent = slideIndex;
+}
+
+});
+
+
 
 
 });
+
