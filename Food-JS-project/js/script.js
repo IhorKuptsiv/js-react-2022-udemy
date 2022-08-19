@@ -463,6 +463,7 @@ const timer = document.querySelector(selector),//timer
 
 //отримання елементів з сторінки HTML
 const slides = document.querySelectorAll('.offer__slide'),
+      slider = document.querySelector('.offer__slider'),
       prev = document.querySelector('.offer__slider-prev'),
       next = document.querySelector('.offer__slider-next'),
       total = document.querySelector('#total'),
@@ -498,6 +499,63 @@ slides.forEach(slide => {
 slide.style.width = width;
 });
 
+//position = 'relative'; 
+slider.style.position = 'relative';
+
+//обгортка для всіх точок
+const indicators = document.createElement('ol'),
+      dots = [];
+indicators.classList.add('carousel-indicators');
+//стилізуємо блок
+indicators.style.cssText= `
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    display: flex;
+    justify-content: center;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+`;
+
+//помістити обгортку в середину слайдеру
+slider.append(indicators);
+
+//кількість слайдів відповідає кількості точок
+for(let i = 0; i < slides.length; i++){
+  const dot = document.createElement('li');
+  //1 точка відповідає 1 слайду
+  // кожній точні атрибу data-slide-to і нумерацію
+  dot.setAttribute('data-slide-to', i + 1);
+  dot.style.cssText = `
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: 30px;
+  height: 6px;
+  margin-right: 3px;
+  margin-left: 3px;
+  cursor: pointer;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  opacity: .5;
+  transition: opacity .6s ease;
+  `;
+  //активна перша точка
+  if(i == 0){
+    dot.style.opacity = 1;
+  }
+  indicators.append(dot);
+  dots.push(dot);
+}
+
+
+
+
+
 //обробник подій NEXT ------->>
 next.addEventListener('click', () => {
   //кінцевий варіант зміщення
@@ -527,6 +585,10 @@ if(slides.length <10){
 }else{
   current.textContent = slideIndex;
 }
+
+//дотси
+dots.forEach(dot => dot.style.opacity = '0.5');
+dots[slideIndex - 1].style.opacity = 1;
 });
 
 //обробник подій PREVIOS <<<-------
@@ -535,12 +597,12 @@ prev.addEventListener('click', () => {
   if(offset == 0){
   // переміщуємось в кінець
   //в offset записуємо останній слайд
-offset = +width.slice(0, width.length - 2) * (slides.length - 1)
+offset = +width.slice(0, width.length - 2) * (slides.length - 1);
   }else{
     //якщо був не перший слайд, віднімаємо 
   offset -= +width.slice(0, width.length - 2);
   }
-
+//зміщення слайду
 slidesField.style.transform = `translateX(-${offset}px)`;
 
 //нумерація
@@ -558,8 +620,33 @@ if(slides.length <10){
   current.textContent = slideIndex;
 }
 
+//дотси
+dots.forEach(dot => dot.style.opacity = '0.5');
+dots[slideIndex - 1].style.opacity = 1;
+
 });
 
+// кліки на дотси для переключення слайдів
+dots.forEach(dot => {
+dot.addEventListener('click', (e) =>{
+  const slideTo = e.target.getAttribute('data-slide-to');
+  //3 точка 3 слайд, 4 -4 тд
+  slideIndex = slideTo;
+  offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+  //зміщення слайду
+  slidesField.style.transform = `translateX(-${offset}px)`;
+  //змінюємо цифри індикатори
+  if(slides.length <10){
+    current.textContent =`0${slideIndex}`;
+  }else{
+    current.textContent = slideIndex;
+  }
+  //дотси
+dots.forEach(dot => dot.style.opacity = '0.5');
+dots[slideIndex - 1].style.opacity = 1;
+
+});
+});
 
 
 
