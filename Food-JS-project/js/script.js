@@ -552,7 +552,9 @@ for(let i = 0; i < slides.length; i++){
   dots.push(dot);
 }
 
-
+function deleteNotDigits(str){
+  return +str.replace(/\D/g, '');
+}
 
 
 
@@ -561,12 +563,15 @@ next.addEventListener('click', () => {
   //кінцевий варіант зміщення
   //наш відступ offset буде рівний ширині слайдера width * кількість слайдів -1
   //500px - в число і відрзати 2 символи, забираємо в числа букви PX slice(0, width.length - 2)
-  if(offset == +width.slice(0, width.length - 2) * (slides.length - 1)){
+  
+  //replace - всі не числа в строці
+  // \D - не числа , g - глобальність для всіх знаків
+  if(offset == deleteNotDigits(width) * (slides.length - 1)){
     //означ. що до листали до кінця і повернутись на початок
 offset = 0;
   }else{
     // якщо не останній слайд --> зміщення
-  offset += +width.slice(0, width.length - 2);
+  offset += deleteNotDigits(width); //+width.replace(/\D/g, '');//.slice(0, width.length - 2);
   }
 //коли клікаємо вперед, здвигаємо слайд
 //`translateX(-${offset})` - зміщуємо в ліво фото
@@ -597,10 +602,10 @@ prev.addEventListener('click', () => {
   if(offset == 0){
   // переміщуємось в кінець
   //в offset записуємо останній слайд
-offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+offset = deleteNotDigits(width) * (slides.length - 1);
   }else{
     //якщо був не перший слайд, віднімаємо 
-  offset -= +width.slice(0, width.length - 2);
+  offset -= deleteNotDigits(width);//+width.replace(/\D/g, '');//.slice(0, width.length - 2);
   }
 //зміщення слайду
 slidesField.style.transform = `translateX(-${offset}px)`;
@@ -632,7 +637,7 @@ dot.addEventListener('click', (e) =>{
   const slideTo = e.target.getAttribute('data-slide-to');
   //3 точка 3 слайд, 4 -4 тд
   slideIndex = slideTo;
-  offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+  offset = deleteNotDigits(width) * (slideTo - 1);
   //зміщення слайду
   slidesField.style.transform = `translateX(-${offset}px)`;
   //змінюємо цифри індикатори
