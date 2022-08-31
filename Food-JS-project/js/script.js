@@ -657,9 +657,39 @@ dots[slideIndex - 1].style.opacity = 1;
 
 const result = document.querySelector('.calculating__result span');
 // фільтри
-let sex = 'female', 
-height, weight, age, 
-ratio=1.375;
+let sex , height, weight, age, ratio;
+// дефолтні значення  sex = 'female';  
+if (localStorage.getItem('sex')){
+  let sex = localStorage.getItem('sex');
+}else{
+  sex = 'female';
+  localStorage.setItem('sex', 'female');
+}
+
+if (localStorage.getItem('ratio')){
+  let ratio = localStorage.getItem('ratio');
+}else{
+  ratio = 1.375;
+  localStorage.setItem('ratio', 1.375);
+}
+
+// завантажуєм вибір фільтру з локалсторедж, якщо ні тоді дефолт значення
+function initLocalSettings(selector,activeClass) {
+ const elements = document.querySelectorAll(selector);
+// перебираємо всі елементи
+ elements.forEach(elem => {
+  // забираємо клас активностів кожного алементу
+  elem.classList.remove(activeClass);
+  if(elem.getAttribute('id') === localStorage.getItem('sex')){
+     elem.classList.add(activeClass);
+  }
+  if(elem.getAttribute('data-ratio') === localStorage.getItem('ratio')){
+    elem.classList.add(activeClass);
+  }
+ });
+}
+initLocalSettings('#gender div','calculating__choose-item_active');
+initLocalSettings('.calculating__choose_big div','calculating__choose-item_active');
 
 // функцію яку будемо викликати 
 function calcTotal() {
@@ -681,9 +711,9 @@ function calcTotal() {
 calcTotal();
 
 // получаємо статичну інфу
-function getStaticInformation(parentSelector, activeClass){
+function getStaticInformation(selector, activeClass){
   //отримуємо всі div
- const elements = document.querySelectorAll(`${parentSelector} div`);
+ const elements = document.querySelectorAll(selector);
   
  // elements.forEach(elem => { -   виправляємо баг з кліком між кнопками калькулятора
  elements.forEach(elem => {
@@ -691,8 +721,12 @@ function getStaticInformation(parentSelector, activeClass){
     //якщо користувач вибрав  фізичну активність
      if(e.target.getAttribute('data-ratio')){
        ratio = +e.target.getAttribute('data-ratio');
+       // запамятовуємо вибір користувача
+       localStorage.setItem('ratio', +e.target.getAttribute('data-ratio'));
      }else{
        sex = e.target.getAttribute('id');
+        // запамятовуємо вибір користувача
+       localStorage.setItem('sex',e.target.getAttribute('id'));
      }
     // console.log(ratio,sex);
      
@@ -708,14 +742,23 @@ function getStaticInformation(parentSelector, activeClass){
 
  //document.querySelector(parentSelector)
 }
-getStaticInformation('#gender','calculating__choose-item_active');
-getStaticInformation('.calculating__choose_big','calculating__choose-item_active');
+getStaticInformation('#gender div','calculating__choose-item_active');
+getStaticInformation('.calculating__choose_big div','calculating__choose-item_active');
 
 // функціяю обробляє кожен окремий інпут
  function getDynamicInformation (selector){
   const input = document.querySelector(selector);
   // оброботчик подій
   input.addEventListener('input', () => {
+ // коли введені замість цифр букви, робимо червоний бордер
+ //match - шукаємо регулярний вираз ,не число /\D/g глобально
+  if( input.value.match(/\D/g)){
+    input.style.border = '1px solid red';
+  }else{
+    input.style.border = 'none';
+  }
+
+
    switch(input.getAttribute('id')){
     case 'height':
       height= +input.value;
