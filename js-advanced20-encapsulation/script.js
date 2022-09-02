@@ -12,23 +12,22 @@ class User {
    // this.userAge = age;
    this._age = age; // _age  не доступні зовні
 
-  
-
 }
+#surname = 'Kuptsiv';
 
   //властивості
   //this.name = name;
   //this.age = age; // БЕЗ інкапсуляції, можна переписати
   //let userAge = age; // З інкапсуляцією , undefined, не доступна зовні
   //this.say = function() {
-    say() {
+    say = () => {
     // console.log(`Імя користувача:  ${this.name}, вік ${this.age}`);
-    console.log(`Імя користувача:  ${this.name}, вік ${this._age}`);
+    console.log(`Імя користувача:  ${this.name}${this.#surname}, вік ${this._age}`);
 
   }
   // метод getAge щоб отримати доступ при інкапсуляції
   //this.getAge = function() {
-  getAge() {
+  get age() {
 
    //return userAge;
    //return this.userAge;
@@ -38,7 +37,7 @@ class User {
   }
   //метод setAge - шоб змінити вік при інкапсуляції
  // this.setAge = function(age) {
-  setAge(age) {
+  set age(age) {
 
     
     if(typeof age === 'number' && age > 0 && age <110){
@@ -69,7 +68,15 @@ const ihor = new User ('Ihor', 30);
 //ihor.name = "Alex";
 
 
-console.log(ihor.age);
-ihor.userAge = 99;
+//console.log(ihor.age);
+//ihor.userAge = 99;
+//console.log(ihor.getAge());
 
-ihor.say();//Ihor 30   //// Імя користувача:  Alex, вік 32
+console.log(ihor.age);//30
+//ihor.age = 99;
+//console.log(ihor.age);//99
+console.log(ihor.surname);//undefined - приватна властивість
+ihor.say();//Імя користувача:  Ihor, вік 99
+
+
+//ihor.say();//Ihor 30   //// Імя користувача:  Alex, вік 32
