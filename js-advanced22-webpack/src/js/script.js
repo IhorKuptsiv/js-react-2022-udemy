@@ -2,7 +2,7 @@
 //імпортуємо функцію з файлу main.js
 
 //називати можна будь як, require для імпорту , і шлях без .js розширення
-const myModule = require('../main');
+const myModule = require('./main');
 
 const myModuleInstance = new myModule();//обєкт
 
