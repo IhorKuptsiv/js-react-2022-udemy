@@ -10,6 +10,11 @@ export {
 };
 
 //варіант 3. експорт функції
-export function sayHi() {
+//export function sayHi() {
+//   console.log('Hello');
+//}
+
+// експорт по замовчуванню (тільки один)
+export default function sayHi() {
     console.log('Hello');
 }
