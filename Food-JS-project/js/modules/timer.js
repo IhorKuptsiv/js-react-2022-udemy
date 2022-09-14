@@ -1,6 +1,6 @@
-function timer() {
+function timer(id, deadline) {
     //-------------TIMER
-    const deadline = '2022-07-11';
+    //const deadline = '2022-07-11';
 
 
     //функція визн. різницю між дедлайном і настоящим часом
@@ -72,7 +72,8 @@ function timer() {
         }
     }
 
-    setClock('.timer', deadline);
+    setClock(id, deadline);
 }
 
-module.exports = timer;
+//module.exports = timer;
+export default timer;

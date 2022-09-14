@@ -1,9 +1,9 @@
-function tabs() {
+function tabs(tabsSelector, tabsContentSelector, tabsParentSelector, activeClass) {
     // ---------------TABS
 
-    let tabs = document.querySelectorAll('.tabheader__item'),
-        tabsContent = document.querySelectorAll('.tabcontent'),
-        tabsParent = document.querySelector('.tabheader__items');
+    let tabs = document.querySelectorAll(tabsSelector),
+        tabsContent = document.querySelectorAll(tabsContentSelector),
+        tabsParent = document.querySelector(tabsParentSelector);
     // скриваємо Таби
     function hideTabContent() {
         tabsContent.forEach(item => {
@@ -13,7 +13,7 @@ function tabs() {
         });
 
         tabs.forEach(item => {
-            item.classList.remove('tabheader__item_active');
+            item.classList.remove(activeClass);
         });
     }
     // показуємо таби
@@ -24,7 +24,7 @@ function tabs() {
         tabsContent[i].classList.add('show', 'fade');
         tabsContent[i].classList.remove('hide');
 
-        tabs[i].classList.add('tabheader__item_active');
+        tabs[i].classList.add(activeClass);
 
     }
 
@@ -40,7 +40,7 @@ function tabs() {
         // event.target в інших част. коду
         const target = event.target;
         // перевірка на таргет і на contains що точно клікнули в ТАБ
-        if (target && target.classList.contains('tabheader__item')) {
+        if (target && target.classList.contains(tabsSelector.slice(1))) {
             // оприділити номер кожного табу і викликати функцію showTabContent 
             //перебиремо всі Таби через forEach. 
             // item - кожен ТАБ який буду перебирати
@@ -61,4 +61,5 @@ function tabs() {
     });
 }
 
-module.exports = tabs;
+//module.exports = tabs;
+export default tabs;

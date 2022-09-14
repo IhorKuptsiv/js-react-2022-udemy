@@ -1,3 +1,7 @@
+import {
+    getResource
+} from '../services/services';
+
 function cards() {
 
     // -----------------CLASS -- Використовуємо класи для карточок
@@ -54,16 +58,17 @@ function cards() {
     }
 
 
-    //      getResource('http://localhost:3000/menu')
+    //       getResource('http://localhost:3000/menu')
     //     .then(data => {
-    //       //деструктуризація обєкту з db.json 
+    //        //деструктуризація обєкту з db.json 
     //     data.forEach(({img, altimg, title, descr, price}) => {
-    //        new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+    //         new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
     //    });
-    // });
+    //  });
 
-    //------------------Axios
-    axios.get('http://localhost:3000/menu')
+    //------------------Axios  
+    // axios.get
+    getResource('http://localhost:3000/menu')
         .then(data => {
             data.data.forEach(({
                 img,
@@ -77,4 +82,5 @@ function cards() {
         });
 
 }
-module.exports = cards;
+//module.exports = cards;
+export default cards;

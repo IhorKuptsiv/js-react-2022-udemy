@@ -1,0 +1,27 @@
+{
+  "name": "js-react-2022-udemy",
+  "version": "1.0.0",
+  "description": "JS and React Udemy 2022 course",
+  "main": "index.js",
+  "dependencies": {
+    "json-server": "^0.17.0",
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.10.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IhorKuptsiv/js-react-2022-udemy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IhorKuptsiv/js-react-2022-udemy/issues"
+  },
+  "homepage": "https://github.com/IhorKuptsiv/js-react-2022-udemy#readme"
+}
