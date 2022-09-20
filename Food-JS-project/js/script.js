@@ -1,3 +1,8 @@
+//ES6 поліфіл
+require('es6-promise').polyfill();
+// forEach поліфіл
+import 'nodelist-foreach-polyfill';
+
 //ES6 Modules
 import tabs from './modules/tabs';
 import modal from './modules/modal';

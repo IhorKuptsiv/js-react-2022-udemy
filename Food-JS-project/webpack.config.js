@@ -13,5 +13,22 @@ module.exports = {
 
   devtool: "source-map",
 
-  module: {}
+  module: {
+    rules: [{
+      test: /\.m?js$/,
+      exclude: /(node_modules|bower_components)/, // що виключаємо
+      use: { // як і що буде використовувати
+        loader: 'babel-loader', //звязує вебпак з бебель
+        options: {
+          presets: [ //пресети які викор. в бебель
+            ['@babel/preset-env', {
+              debug: true, //тру якщо хочимо все бачити: версії і тд
+              corejs: 3,
+              useBuiltIns: "usage" //вибрати ті поліфіли які тільки потрібні
+            }]
+          ]
+        }
+      }
+    }]
+  }
 };
