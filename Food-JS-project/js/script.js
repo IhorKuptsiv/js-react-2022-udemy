@@ -3,6 +3,8 @@ require('es6-promise').polyfill();
 // forEach поліфіл
 import 'nodelist-foreach-polyfill';
 
+//1)npm slick-slider 2)import 'slick-slider';
+
 //ES6 Modules
 import tabs from './modules/tabs';
 import modal from './modules/modal';
