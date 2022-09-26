@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "json-server": "^0.17.0",
+    "tiny-slider": "^2.9.4",
     "webpack": "^5.74.0"
   },
   "devDependencies": {
