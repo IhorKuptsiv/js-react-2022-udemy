@@ -4,6 +4,7 @@
   "description": "JS and React Udemy 2022 course",
   "main": "index.js",
   "dependencies": {
+    "create-react-app": "^5.0.1",
     "json-server": "^0.17.0",
     "tiny-slider": "^2.9.4",
     "webpack": "^5.74.0"
