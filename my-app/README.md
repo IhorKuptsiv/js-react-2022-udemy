@@ -1,3 +1,8 @@
+ReactJS basic course 2022
+Task: description
+05: Work with JSX 
+06: Element and component
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -5,6 +5,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { Header } from './App';
+
+
+//05. ЕЛЕМЕНТИ І КОМПОНЕНТИ
+//Елементи-структурні частинки компонентів: незмінні
+//Компоненти-структурні блоки додатку: перевикористов.,пишуться з Великої букви
+
+ReactDOM.render(
+<App/>,//Компонент - з великої букви, елемент з малої букви
+  document.getElementById('root')
+);
+
+
+
+
 
 
 //JSX - JS/html/css зразу пишемо як виглядає і поводить себе елемент
@@ -40,36 +55,36 @@ import App from './App';
 // <button/> -- закривати теги! які самозикривающі
 // { }-- можна поміщати все крім обєктів
 //--!!!---спеціальні атрибути className->>class в html ///htmlFor-->for в html
-const text = 'Hello world'
-const elem = (
-  <div>
-    <h2 className='text'>Text: {text}</h2>
-    <h2>Text2: {2 + 2}</h2>
-    <h2>Text3: {['1111', '22222']}</h2>
-     <label htmlFor=""></label>
+// const text = 'Hello world'
+// const elem = (
+//   <div>
+//     <h2 className='text'>Text: {text}</h2>
+//     <h2>Text2: {2 + 2}</h2>
+//     <h2>Text3: {['1111', '22222']}</h2>
+//      <label htmlFor=""></label>
     
-    <input type="text" />
-    <button>Click</button>
-    <button tabIndex="0"> Click2</button>
-    <button/>
-</div>
-);
+//     <input type="text" />
+//     <button>Click</button>
+//     <button tabIndex="0"> Click2</button>
+//     <button/>
+// </div>
+// );
 
 
 //---------------React v17
 //ReactDOM - запуск бібліотеки, повинна запускатись 1 раз з самого верху
 //в метод render передаємо 2 аргументи
-ReactDOM.render(
+//ReactDOM.render(
   // 1 аргумент - що ми будемо рендирити
   //StrictMode - строгий режим
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
-  elem,
+  //elem,
   //2 аргумент - куди поміщаємо
   // root - в файлі index.html
-  document.getElementById('root')
-);
+ // document.getElementById('root')
+//);
 
 
 //---------------React v18
