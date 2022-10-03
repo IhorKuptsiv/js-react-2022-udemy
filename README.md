@@ -12,3 +12,4 @@ Task: description
 07: StrictMode React 17
 08: StrictMode React 18
 09: Create new project React app
+10: Props
