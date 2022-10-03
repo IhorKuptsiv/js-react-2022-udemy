@@ -1,11 +1,3 @@
-ReactJS basic course 2022
-Task: description
-05: Work with JSX 
-06: Element and component
-07: StrictMode React 17
-08: StrictMode React 18
-09: Create first React app
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
