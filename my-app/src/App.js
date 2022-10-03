@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 
 //import React from 'react';
-import { Component } from 'react';
+import { Component,StrictMode} from 'react';
 
 import './App.css';
 
@@ -69,7 +69,10 @@ function Btn() { // Компонент
 function App() {// Компонент з великої букви
   return (
     <div className="App">
-      <Header/> 
+      {/* StrictMode активуємо для перевірки <Header/>  */}
+      <StrictMode>
+          <Header/> 
+      </StrictMode>
       <Field />
       <Btn/>
 

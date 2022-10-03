@@ -1,11 +1,11 @@
 //відповідає за роботу з React, JSX,
-import React from 'react';
+import React, {StrictMode} from 'react';
 //дозволяє працювати з DOM на сторінці( вставляти React на сторінку)
 //import ReactDOM from 'react-dom/client'; //REACT v18
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { Header } from './App';
+//import { Header } from './App';
 
 
 //05. ЕЛЕМЕНТИ І КОМПОНЕНТИ
@@ -13,9 +13,20 @@ import { Header } from './App';
 //Компоненти-структурні блоки додатку: перевикористов.,пишуться з Великої букви
 
 ReactDOM.render(
-<App/>,//Компонент - з великої букви, елемент з малої букви
+
+//06. СТРОГИЙ РЕЖИМ(strict mode)
+//import React, {StrictMode}....
+//похожий на директиву use strict
+//Компонент   <StrictMode> - інструмент для виявлення 
+//потенційних проблем в нашому додатку. Активує додаткові перевірки
+// для потомків (<App/>)
+  <StrictMode>
+ <App/>{/*//Компонент - з великої букви, елемент з малої букви */}
+  </StrictMode>,
+
   document.getElementById('root')
 );
+
 
 
 
