@@ -2,8 +2,27 @@
 
 //import React from 'react';
 import { Component,StrictMode} from 'react';
-
 import './App.css';
+
+//---------10. Властивості компонентів 
+//function WhoAmI(props) {//props - аргумент функції(обєкт з даними які передамо)
+function WhoAmI({name, surname, link}) {
+return (
+    <div>
+      {/* <h1>My name is {props.name}, surmane - {props.surname} </h1> */}
+    {/* <a href={props.link}> My profile</a> */}
+
+    {/* Викликаємо обєкти */}
+    {/* <h1>My name is {name.firstName}, surmane - {surname} </h1> */}
+
+    
+    {/* Викликаємо функцію */}
+    <h1>My name is {name()}, surmane - {surname} </h1>
+    
+    <a href={link}> My profile</a>
+    </div>
+  )
+}
 
 
 const Header = () => { //реакт компонент
@@ -75,9 +94,17 @@ function App() {// Компонент з великої букви
       </StrictMode>
       <Field />
       <Btn/>
+      
+      {/* <WhoAmI name="John" surname="Smith" link="facebook.com" />
+      <WhoAmI name="Alex" surname="Sheprd" link="instagram.com"/> */}
 
-
-
+      {/* Передаємо обєкти */}
+      {/* <WhoAmI name ={{firstName: 'Ronald'}} surname="Lalal" link="facebook.com"/> */}
+      
+      {/* Передаємо функції */}
+      <WhoAmI name={()=> {return 'Jogggn'}} surname="Lalal" link="facebook.com" />
+      
+      
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
