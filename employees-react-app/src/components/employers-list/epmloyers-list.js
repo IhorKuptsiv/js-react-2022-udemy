@@ -10,13 +10,17 @@ const EmployersList = ({ data }) => {
     // пропси name i salary.Результатом новий масив сформований з колбек функції
     // В елемент лежить масив з компонентами, 1...2.3.4. EmployersListItem
     const elements = data.map(item => {
+        //витягуєм id пропс, а всі інші оюєднуємо в itemProps
+        const { id, ...itemProps } = item;
         return (       
         //   <EmployersListItem name={item.name} salary={item.salary}/>
        
         //Object spread operator
-            <EmployersListItem {...item} />
+            <EmployersListItem key={id} {...itemProps} />
       )
-    });
+    })
+
+    
 
     return (
         <ul className="app-list list-group">
