@@ -1,27 +1,70 @@
 //import logo from './logo.svg';
 
 //import React from 'react';
-import { Component,StrictMode} from 'react';
+import { Component } from 'react';
+//import { Component,StrictMode} from 'react';
 import './App.css';
 
 //---------10. Властивості компонентів 
 //function WhoAmI(props) {//props - аргумент функції(обєкт з даними які передамо)
-function WhoAmI({name, surname, link}) {
-return (
-    <div>
-      {/* <h1>My name is {props.name}, surmane - {props.surname} </h1> */}
-    {/* <a href={props.link}> My profile</a> */}
+//function WhoAmI({ name, surname, link }) {
+//перероблюємо в КЛАС
+class WhoAmI extends Component { 
+  constructor(props) {
+    super(props);
+    //props змінювати не можна, вони тільки для читання
+    // змінювати можна state
+    // обєкт
+    this.state = {
+      //цю властивість можна змінювати 
+      years: 27,
+      text: '+++'
+    }
+  }
+  
+  nextYear = () => {
+    //setState - можна змінювати. запускає перерендер всього стану
+    this.setState(
+    //приймає обєкт з новим станом
+    //  years: this.state.years + 1
+      
+    //в setState передаємо функцію
+    // в функцію передаємо 1 аргумент state
+    // ця функція повертає інший обєкт  years: state.years + 1
+    // setState(   ) - дужки замість return
+      state => ({
+        years: state.years + 1
+      }))
+}
 
-    {/* Викликаємо обєкти */}
-    {/* <h1>My name is {name.firstName}, surmane - {surname} </h1> */}
-
-    
-    {/* Викликаємо функцію */}
-    <h1>My name is {name()}, surmane - {surname} </h1>
-    
-    <a href={link}> My profile</a>
-    </div>
-  )
+  //013 React basic - Стан компонентів
+  //1. У компонентах можу бит внутр. стан який динамічно змін.
+  //2. Воно може бути як в класових і функці компонентах
+  //3. state напряму мінювати не можна, тільки через setState
+  //4. setState або зміна state це асинхронна операція .
+  // Якщо потрібна точність і послідовність ми передаємо callback
+  //5. В setState ми можемо міняти ті властивості обєкту стану 
+  // які нам потрібні, інші не змінюються
+// метод render відповідає за вивід на сторінку в Класах
+  render() {
+    const { name, surname, link } = this.props;
+    return (
+      <div>
+        {/* <h1>My name is {props.name}, surmane - {props.surname} </h1> */}
+      {/* <a href={props.link}> My profile</a> */}
+  
+      {/* Викликаємо обєкти */}
+      {/* <h1>My name is {name.firstName}, surmane - {surname} </h1> */}
+  
+        {/* подія з методом nextYear-- назва методу а не виклик */}
+        <button onClick={this.nextYear}>{this.state.text}</button>
+      {/* Викликаємо функцію */}
+      <h1>My name is {name}, surmane - {surname}, age - {this.state.years} </h1>
+      
+      <a href={link}> My profile</a>
+      </div>
+    )
+}
 }
 
 
@@ -46,7 +89,8 @@ const Header = () => { //реакт компонент
 //import React from 'react'; імпортуємо !!
 //!!! потнібно унаслідувати поведінку від базового класу
 //class Field extends React.Component{
-  class Field extends Component{
+class Field extends Component{
+ 
     render() {
       const holder = 'Enter here';
       const styledField = {
@@ -89,9 +133,9 @@ function App() {// Компонент з великої букви
   return (
     <div className="App">
       {/* StrictMode активуємо для перевірки <Header/>  */}
-      <StrictMode>
+      {/* <StrictMode>
           <Header/> 
-      </StrictMode>
+      </StrictMode> */}
       <Field />
       <Btn/>
       
@@ -102,8 +146,11 @@ function App() {// Компонент з великої букви
       {/* <WhoAmI name ={{firstName: 'Ronald'}} surname="Lalal" link="facebook.com"/> */}
       
       {/* Передаємо функції */}
-      <WhoAmI name={()=> {return 'Jogggn'}} surname="Lalal" link="facebook.com" />
+      {/* <WhoAmI name={()=> {return 'Jogggn'}} surname="Lalal" link="facebook.com" /> */}
       
+      {/* Передаємо в клас */}
+      <WhoAmI name='John' surname="Smith" link="facebook.com" />
+      <WhoAmI name='Alex' surname="Shep" link="insta.com" />
       
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
