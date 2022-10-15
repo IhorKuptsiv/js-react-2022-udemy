@@ -9,6 +9,17 @@ import './App.css';
 //function WhoAmI(props) {//props - аргумент функції(обєкт з даними які передамо)
 //function WhoAmI({ name, surname, link }) {
 //перероблюємо в КЛАС
+
+ //--------13 React basic - Стан компонентів
+  //1. У компонентах можу бит внутр. стан який динамічно змін.
+  //2. Воно може бути як в класових і функці компонентах
+  //3. state напряму мінювати не можна, тільки через setState
+  //4. setState або зміна state це асинхронна операція .
+  // Якщо потрібна точність і послідовність ми передаємо callback
+  //5. В setState ми можемо міняти ті властивості обєкту стану
+  // які нам потрібні, інші не змінюються
+// метод render відповідає за вивід на сторінку в Класах
+
 class WhoAmI extends Component { 
   constructor(props) {
     super(props);
@@ -18,10 +29,17 @@ class WhoAmI extends Component {
     this.state = {
       //цю властивість можна змінювати 
       years: 27,
-      text: '+++'
+      text: '+++',
+      position: ''
     }
+    //this.nextYear властивість у екземпляра класу
+    //this.nextYear метод який є в класі
+    //ми його біндимо bind до екземпляру конкретного класу через this 
+   // this.nextYear = this.nextYear.bind(this);
   }
   
+  //nextYear() { // коли анонімна стрілочна функція
+  //nextYear () {  //коли bind
   nextYear = () => {
     //setState - можна змінювати. запускає перерендер всього стану
     this.setState(
@@ -35,19 +53,24 @@ class WhoAmI extends Component {
       state => ({
         years: state.years + 1
       }))
+    
+  }
+  commitInputChanges = (e, color) => {
+    console.log(color);
+    //e.target -  можна взнати у елемента подій
+    // на якій подіх відбулась ця подія
+  //console.log(e.target.value)
+    
+    //змінюємо стейт
+    this.setState({
+      position: e.target.value
+    })
 }
 
-  //013 React basic - Стан компонентів
-  //1. У компонентах можу бит внутр. стан який динамічно змін.
-  //2. Воно може бути як в класових і функці компонентах
-  //3. state напряму мінювати не можна, тільки через setState
-  //4. setState або зміна state це асинхронна операція .
-  // Якщо потрібна точність і послідовність ми передаємо callback
-  //5. В setState ми можемо міняти ті властивості обєкту стану 
-  // які нам потрібні, інші не змінюються
-// метод render відповідає за вивід на сторінку в Класах
+ 
   render() {
     const { name, surname, link } = this.props;
+    const { position, years } = this.state;
     return (
       <div>
         {/* <h1>My name is {props.name}, surmane - {props.surname} </h1> */}
@@ -57,11 +80,23 @@ class WhoAmI extends Component {
       {/* <h1>My name is {name.firstName}, surmane - {surname} </h1> */}
   
         {/* подія з методом nextYear-- назва методу а не виклик */}
-        <button onClick={this.nextYear}>{this.state.text}</button>
-      {/* Викликаємо функцію */}
-      <h1>My name is {name}, surmane - {surname}, age - {this.state.years} </h1>
-      
-      <a href={link}> My profile</a>
+         <button onClick={this.nextYear}>{this.state.text}</button> 
+        {/* <button onClick={() => this.nextYear()}>{this.state.text}</button> */}
+        {/* Викликаємо функцію */}
+        <h1>My name is {name},
+          surmane - {surname},
+          age - {years},
+          position - {position}</h1>
+        <a href={link}> My profile</a>
+        <form >
+          <span>Введіть посаду</span>
+
+          {/* При введені в інпут попадали дані в стан а потім в верстку */}
+          {/* <input type="text" onChange={this.commitInputChanges}/> */}
+          <input type="text" onChange={(e) => this.commitInputChanges(e, 'some color')}/>
+        </form>
+
+
       </div>
     )
 }
