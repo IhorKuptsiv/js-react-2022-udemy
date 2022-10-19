@@ -3,7 +3,7 @@ import EmployersListItem from "../employers-list-item/employers-list-item";
 import './employers-list.css';
 
 // data - дані з app.js 
-const EmployersList = ({ data }) => {
+const EmployersList = ({ data, onDelete }) => {
     // Приходить data - це масив з обєктами.Ці елементи перебираємо в 
     // середині map де кожен елемент в масиві як item. 
     // Наша Колбек функція буде повертати компонент в якому назначаються
@@ -16,7 +16,12 @@ const EmployersList = ({ data }) => {
         //   <EmployersListItem name={item.name} salary={item.salary}/>
        
         //Object spread operator
-            <EmployersListItem key={id} {...itemProps} />
+            <EmployersListItem
+                // В компонент передаємо функцію
+
+                key={id}
+                {...itemProps}
+                onDelete={()=> onDelete(id)} />
       )
     })
 
