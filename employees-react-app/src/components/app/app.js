@@ -21,6 +21,7 @@ class App extends Component {
             ]
         
         }
+        this.maxId = 4;
     }
     deleteItem = (id) => {
         //setState - за допомогою нього можна змінювати/видаляти
@@ -32,11 +33,11 @@ class App extends Component {
             // де спрацювала ця функція
             // якщо буде таке співпадіння то ми получимо індекс обєкта який треба видалити
             
-            const index = data.findIndex(elem => elem.id === id);
+            //const index = data.findIndex(elem => elem.id === id);
             // data.splice(index, 1); //ми змінили на пряму, але так не можна
             // return{data:data} //видалили на пряму, але так не можна
             
-            //1 спосіб роботи з іммутабельністю
+            //---------------1 спосіб роботи з іммутабельністю
             //потрібно створити новий месив але без непотрібного нам
             // берем від 0 до того що нам потрібно видалити
             //const before = data.slice(0, index);
@@ -46,11 +47,13 @@ class App extends Component {
             //const newArr = [...before, ...after];
             //return { data: newArr }
             
-            //2 спосіб
+            //------------------2 спосіб
             //берем масив, і фільтруємо зі створенням нового
             //беремо data.filter і перебираємо кожен обєки item
             //якщо item.id не рівний id то видаляємо цей елемент
-            return { data: data.filter(item=> item.id !== id) }
+            return {
+                data: data.filter(item => item.id !== id)
+            }
         })
     }
     // імітація даних з серевера
@@ -59,6 +62,23 @@ class App extends Component {
     //     { name: 'Alex M.', salary: 3000, increase:true, id:2},
     //     { name:'Carl W.', salary: 5000, increase:false, id:3}
     // ];
+
+
+    //Додавання нових користувачів
+    addItem = (name, salary) => {
+        const newItem = {
+            name,
+            salary,
+            increase: false,
+            id: this.maxId++
+        }
+            this.setState(({data}) => {
+                const newArr = [...data, newItem];
+                return {
+                    data: newArr
+                }
+            });
+        }
 
         render() {
             return (
@@ -75,7 +95,7 @@ class App extends Component {
                         data={this.state.data}
                         // onDelete={id => console.log(id) } />
                         onDelete={this.deleteItem} />
-                    <EmployersAddForm/>
+                    <EmployersAddForm onAdd={this.addItem}/>
                     
               </div>
             );
