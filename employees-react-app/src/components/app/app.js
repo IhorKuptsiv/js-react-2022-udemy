@@ -81,30 +81,70 @@ class App extends Component {
             });
     }
     // ----------------19 Підйом станів. State lifting
-    onToggleIncrease = (id) => {
+    // onToggleIncrease = (id) => {
        // console.log(`Increase this ${id}`);
-        this.setState(({ data }) => {
-            //отримуємо індекс елементу з яким будемо працювати
-            const index = data.findIndex(elem => elem.id === id);
-            //получаємо старий обєкт
-            const old = data[index];
-            //створюєм новий обєкт. беремо old і розгортаємо його
-            // після ...old, якщо пишемо нові свойства і вони існували
-            // вони будуть змінятись на нові
-            // беремо значення тру чи фолс в increase: !old.increase і міняємо навпаки
-            const newItem = { ...old, increase: !old.increase };
-            //розгортаємо data від 0 до індекса
-            const newArr = [...data.slice(0,index),];
-        })
-    }
-    onToggleRise = (id) => {
-        console.log(`Rise this ${id}`);
-    }
+        
+       // this.setState(({ data }) => {
+            // //отримуємо індекс елементу з яким будемо працювати
+            // const index = data.findIndex(elem => elem.id === id);
+            // //получаємо старий обєкт
+            // const old = data[index];
+            // //створюєм новий обєкт. беремо old і розгортаємо його
+            // // після ...old, якщо пишемо нові свойства і вони існували
+            // // вони будуть змінятись на нові
+            // // беремо значення тру чи фолс в increase: !old.increase і міняємо навпаки
+            // const newItem = { ...old, increase: !old.increase };
+            // //розгортаємо data від 0 до індекса
+            // const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+            // //з setstate повертаємо обєкт який буде мати свойства data в який поміщаємо newArr
+            // return {
+            //     data: newArr
+            // }
+        //})
 
-        render() {
+        //-----------через MAP
+        onToggleProp = (id,prop) => {
+        //(  ) - повертаємо зразу обєкт  а не тільки повертаємо функцію
+        this.setState(({ data }) => ({
+      // повертаэмо обєякт в якого буде свойсто data
+      //data це масив, коли використаємо map - сформуємо новий масив
+      // item => {} - item це кожен окремий обєкт в середині нашого масиву 
+      //коли цей лобкек проходиться по кожному нашому з обєктів - item  в середині data   
+            data: data.map(item => { 
+                //якщо item id співпав з id то ми 
+                if (item.id === id) {
+            // повертаємо новий обєкт і в нього включаємо всі свойства
+            return {...item, [prop]: !item[prop]}
+                }
+                return item;
+            })
+        }))  
+    }
+    // onToggleRise = (id) => {
+    //     //console.log(`Rise this ${id}`);
+    //     this.setState(({ data }) => ({
+    //         data: data.map(item => { 
+    //             //якщо item id співпав з id то ми 
+    //             if (item.id === id) {
+    //         // повертаємо новий обєкт і в нього включаємо всі свойства
+    //         return {...item, rise: !item.rise}
+    //             }
+    //             return item;
+    //         })
+    //     }))
+    // }
+
+    render() {
+       //получаємо кількість співробітників
+        const employees = this.state.data.length;
+        //скільки працівників іде на повишення
+        //filter повертає новий масив
+        //перебираємо item, повертаємо тільки тих працівників
+        //які получають премію - item.increase
+        const increased = this.state.data.filter(item => item.increase).length;
             return (
                 <div className="app">
-                    <AppInfo />
+                    <AppInfo employees={employees} increased={increased}/>
                     
                     <div className="search-panel">
                         <SearchPanel />
@@ -116,8 +156,10 @@ class App extends Component {
                         data={this.state.data}
                         // onDelete={id => console.log(id) } />
                         onDelete={this.deleteItem}
-                        onToggleIncrease={this.onToggleIncrease}
-                        onToggleRise={this.onToggleRise} />
+                        // onToggleIncrease={this.onToggleIncrease}
+                      //  onToggleRise={this.onToggleRise} 
+                      onToggleProp={this.onToggleProp}
+                      />
                     <EmployersAddForm onAdd={this.addItem}/>
                     
               </div>

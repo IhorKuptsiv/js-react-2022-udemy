@@ -2,8 +2,9 @@ import EmployersListItem from "../employers-list-item/employers-list-item";
 
 import './employers-list.css';
 
-// data - дані з app.js 
-const EmployersList = ({ data, onDelete,onToggleIncrease,onToggleRise }) => {
+// data - дані з app.js
+// const EmployersList = ({ data, onDelete,onToggleIncrease,onToggleRise }) => {
+    const EmployersList = ({ data, onDelete,onToggleProp }) => {
     // Приходить data - це масив з обєктами.Ці елементи перебираємо в 
     // середині map де кожен елемент в масиві як item. 
     // Наша Колбек функція буде повертати компонент в якому назначаються
@@ -22,8 +23,12 @@ const EmployersList = ({ data, onDelete,onToggleIncrease,onToggleRise }) => {
                 key={id}
                 {...itemProps}
                 onDelete={() => onDelete(id)}
-                onToggleIncrease={() => onToggleIncrease(id)}
-                onToggleRise={() => onToggleRise(id)} />
+                // після id повинна бути стрінга що конкретно
+                //ми будемо змінювати, получена з елемента
+                // де відбувається події. - подія кліку
+                onToggleProp={(e) => onToggleProp(id, e.currentTarget.getAttribute('data-toggle') )}
+                //onToggleRise={() => onToggleRise(id)} 
+                />
       )
     })
 
