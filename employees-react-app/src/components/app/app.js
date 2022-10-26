@@ -15,9 +15,9 @@ class App extends Component {
         super(props);
         this.state = {
             data : [
-                { name: 'John C.', salary: 800, increase:false, id:1 },
-                { name: 'Alex M.', salary: 3000, increase:true, id:2},
-                { name:'Carl W.', salary: 5000, increase:false, id:3}
+                { name: 'John C.', salary: 800, increase:false, rise:true, id:1 },
+                { name: 'Alex M.', salary: 3000, increase:true, rise:false, id:2},
+                { name:'Carl W.', salary: 5000, increase:false, rise:false, id:3}
             ]
         
         }
@@ -70,6 +70,7 @@ class App extends Component {
             name,
             salary,
             increase: false,
+            rise:false,
             id: this.maxId++
         }
             this.setState(({data}) => {
@@ -78,7 +79,27 @@ class App extends Component {
                     data: newArr
                 }
             });
-        }
+    }
+    // ----------------19 Підйом станів. State lifting
+    onToggleIncrease = (id) => {
+       // console.log(`Increase this ${id}`);
+        this.setState(({ data }) => {
+            //отримуємо індекс елементу з яким будемо працювати
+            const index = data.findIndex(elem => elem.id === id);
+            //получаємо старий обєкт
+            const old = data[index];
+            //створюєм новий обєкт. беремо old і розгортаємо його
+            // після ...old, якщо пишемо нові свойства і вони існували
+            // вони будуть змінятись на нові
+            // беремо значення тру чи фолс в increase: !old.increase і міняємо навпаки
+            const newItem = { ...old, increase: !old.increase };
+            //розгортаємо data від 0 до індекса
+            const newArr = [...data.slice(0,index),];
+        })
+    }
+    onToggleRise = (id) => {
+        console.log(`Rise this ${id}`);
+    }
 
         render() {
             return (
@@ -94,7 +115,9 @@ class App extends Component {
                     <EmployersList
                         data={this.state.data}
                         // onDelete={id => console.log(id) } />
-                        onDelete={this.deleteItem} />
+                        onDelete={this.deleteItem}
+                        onToggleIncrease={this.onToggleIncrease}
+                        onToggleRise={this.onToggleRise} />
                     <EmployersAddForm onAdd={this.addItem}/>
                     
               </div>

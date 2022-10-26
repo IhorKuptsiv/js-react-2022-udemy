@@ -3,7 +3,7 @@ import EmployersListItem from "../employers-list-item/employers-list-item";
 import './employers-list.css';
 
 // data - дані з app.js 
-const EmployersList = ({ data, onDelete }) => {
+const EmployersList = ({ data, onDelete,onToggleIncrease,onToggleRise }) => {
     // Приходить data - це масив з обєктами.Ці елементи перебираємо в 
     // середині map де кожен елемент в масиві як item. 
     // Наша Колбек функція буде повертати компонент в якому назначаються
@@ -21,7 +21,9 @@ const EmployersList = ({ data, onDelete }) => {
 
                 key={id}
                 {...itemProps}
-                onDelete={()=> onDelete(id)} />
+                onDelete={() => onDelete(id)}
+                onToggleIncrease={() => onToggleIncrease(id)}
+                onToggleRise={() => onToggleRise(id)} />
       )
     })
 
