@@ -72,7 +72,9 @@ class WhoAmI extends Component {
     const { name, surname, link } = this.props;
     const { position, years } = this.state;
     return (
-      <div>
+       <>
+      
+    {/* <div className="App"> */}
         {/* <h1>My name is {props.name}, surmane - {props.surname} </h1> */}
       {/* <a href={props.link}> My profile</a> */}
   
@@ -96,8 +98,8 @@ class WhoAmI extends Component {
           <input type="text" onChange={(e) => this.commitInputChanges(e, 'some color')}/>
         </form>
 
-
-      </div>
+         {/*  </div>  */}
+         </> 
     )
 }
 }
