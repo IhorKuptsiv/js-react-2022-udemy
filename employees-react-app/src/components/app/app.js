@@ -18,7 +18,13 @@ class App extends Component {
                 { name: 'John C.', salary: 800, increase:false, rise:true, id:1 },
                 { name: 'Alex M.', salary: 3000, increase:true, rise:false, id:2},
                 { name:'Carl W.', salary: 5000, increase:false, rise:false, id:3}
-            ]
+            ],
+            // ----------------21. Пошук і фільтри
+            //стан який називається term який використовуєм в рендер
+            term: '',
+            //фільтр
+            filter: 'all'
+
         
         }
         this.maxId = 4;
@@ -133,8 +139,59 @@ class App extends Component {
     //         })
     //     }))
     // }
+    
+    
+    //-----метод для пошуку  ( пошук і фільтр)
+    // 2 аргументи: строка яку передаємо і масив даних
+    searchEmp = (items, term) => {
+    // перевірка якщо шось написав але видалив в пошуку
+        if (term.length === 0) {
+            return items;
+        }
+        //в іншому випадку фільтруємо масив
+        return items.filter(item => {
+         // будемо брати свойство name в обєкті (Alex, John)
+        // і співставляти з пустою строкою term
+        //indexOf - метод для стрінгів , який шукає куски стрінгів
+       // якщо нічого не знаходить, повертає -1
+        return item.name.indexOf(term) > -1
+        })
+
+    }
+
+      //потрібно підняти стан term наверх в app.js
+    //метод
+    onUpdateSearch = (term) => {
+        //term:term рівне --->  term - скорочена запис обєктів
+            this.setState({ term });
+    }
+    //метод для фільтрації
+    // приймає 2 аргументи: items масив, 
+    //filter - по якоу будемо фільтрувати: всі, на повишення, зп більше..
+    filterPost = (items, filter) => {
+    // взяти filter і в залежності від змісту щось робити
+        switch (filter) {
+        //rise - хто на повишення
+            case 'rise':
+        //item => item.rise -  беремо тільки ті які тру rise
+                return items.filter(item => item.rise);
+            case 'moreThen1000':
+        //берем кожен елем. в масиві який більший 1000 зп
+                return items.filter(item => item.salary > 1000)
+            default:
+                return items
+        }
+    }
+
+    //метод для кліку на фільтри і сортування
+    //буде в метод приходити строка filter
+    onFilterSelect = (filter) => {
+        this.setState({ filter });
+    }
 
     render() {
+        //------пошук і фільтри
+        const { data, term, filter } = this.state;
        //получаємо кількість співробітників
         const employees = this.state.data.length;
         //скільки працівників іде на повишення
@@ -142,18 +199,27 @@ class App extends Component {
         //перебираємо item, повертаємо тільки тих працівників
         //які получають премію - item.increase
         const increased = this.state.data.filter(item => item.increase).length;
-            return (
+        // відфільтровані дані ( відфільтровані масив по пошуку)
+        //const visibleData = this.searchEmp(data, term);
+
+        //----фільтрація по пошуку + фільтрація по фільтру
+        //filterPost - приймає масив -items і фільтр -filter
+        const visibleData =this.filterPost( this.searchEmp(data, term),filter);
+        
+        return (
                 <div className="app">
                     <AppInfo employees={employees} increased={increased}/>
                     
                     <div className="search-panel">
-                        <SearchPanel />
-                        <AppFilter />
+                        <SearchPanel onUpdateSearch={this.onUpdateSearch} />
+                        <AppFilter filter={filter} onFilterSelect={this.onFilterSelect} />
          
                     </div>
                     {/* В пропс data передаємо масив даних data */}
                     <EmployersList
-                        data={this.state.data}
+                        //data={this.state.data}
+                     //data={data}
+                     data={visibleData}
                         // onDelete={id => console.log(id) } />
                         onDelete={this.deleteItem}
                         // onToggleIncrease={this.onToggleIncrease}
