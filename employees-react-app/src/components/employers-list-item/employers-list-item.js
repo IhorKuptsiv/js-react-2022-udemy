@@ -53,7 +53,16 @@ import './employers-list-item.css';
             // <li className="list-group-item d-flex justify-content-between">
             <li className={classNames}>
                 {/* <span className="list-group-item-label">John Smith</span> */}
-                <span className="list-group-item-label" onClick={onToggleProp} data-toggle="rise">{name}</span>
+                <span className="list-group-item-label"
+                    onClick={onToggleProp}
+                    data-toggle="rise"
+                    style={{
+                        // fontSize: 40, color: 'red',
+                        // transition: 'all',
+                        // WebkitTransition: 'all',
+                        // msTransition: 'all'
+                    }}>
+                    {name}</span>
                 <input type="text" className="list-group-item-input" defaultValue={salary + '$'} />
                 <div className='d-flex justify-content-center align-items-center'>
                     <button type="button"
