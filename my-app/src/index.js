@@ -7,7 +7,10 @@ import './index.css';
 import App from './App';
 //import { Header } from './App';
 import { Button } from './App';
+import BootstrapTest from './BootstrapTest';
 import styled from 'styled-components';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // щоб переназначити стилі
 const BigButton = styled(Button)`
@@ -30,7 +33,8 @@ ReactDOM.render(
 // для потомків (<App/>)
   <StrictMode>
  <App/>{/*//Компонент - з великої букви, елемент з малої букви */}
-<BigButton as="a">Відправити звіт </BigButton>
+    <BigButton as="a">Відправити звіт </BigButton>
+    <BootstrapTest/>
   </StrictMode>,
 
   document.getElementById('root')
