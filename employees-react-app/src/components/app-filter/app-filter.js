@@ -3,14 +3,14 @@ import './app-filter.css';
 const AppFilter = (props) => {
 
     const buttonsData = [
-        { name: 'all', label: 'Всі працівники' },
-        { name: 'rise', label: 'На повишення' },
-        {name: 'moreThen1000', label:'З/П більше 1000$'}
+        { name: 'all', label: 'Всі працівники', colored: false},
+        { name: 'rise', label: 'На повишення', colored: false },
+        {name: 'moreThen1000', label:'З/П більше 1000$', colored: true}
     ];
 
     //на базі даних вище, формуємо масив елементів
     //перебираэмо через map і беремо name, label 
-    const buttons = buttonsData.map(({ name, label }) => {
+    const buttons = buttonsData.map(({ name, label,colored }) => {
     // оприділяти активний елемент чи ні 
         //if props.filter === name - ми тоді повертаємо true в active
         const active = props.filter === name;
@@ -19,15 +19,19 @@ const AppFilter = (props) => {
      //якщо false ---  btn-outline-light
         const clazz = active ? 'btn-light' : 'btn-outline-light';
         //повертаємо структуру з кнопкою
+
+        //динамічний стиль
+        const style = colored ? { color: '#e09f3e' } : null;
         return (
             <button
             className={`btn ${clazz}`}
             type="button"
             key={name}
-            onClick={() => props.onFilterSelect(name)}>
+                onClick={() => props.onFilterSelect(name)}
+            style={style}>
             {label}
         </button>   
-         )
+         ) 
      })
 
 
