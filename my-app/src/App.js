@@ -4,6 +4,38 @@
 import { Component } from 'react';
 //import { Component,StrictMode} from 'react';
 import './App.css';
+import styled from 'styled-components';
+
+//-------------26 Styled-component. CSS in JS
+const EmpItem = styled.div`
+     padding: 20px;
+     margin-bottom: 15px;
+     border-radius: 5px;
+     box-shadow: 5px 5px 10px rgba(0,0,0, .2);
+     a{
+      display:block;
+      margin: 10px 0 10px 0;
+      color: ${props => props.active ? 'orange': 'black'};
+     }
+     input {
+      display: block;
+      margin-top: 10px;
+     }
+
+`;
+
+const Headers = styled.h2`
+font-size: 22px;
+`;
+
+export const Button = styled.button`
+ display: block;
+ padding: 5px 15px;
+ background-color: gold;
+ border 1px solid rgba(0,0,0, .2);
+ box-shadow: 5px 5px 10px rgba(0,0,0, .2);
+`;
+
 
 //---------10. Властивості компонентів 
 //function WhoAmI(props) {//props - аргумент функції(обєкт з даними які передамо)
@@ -72,7 +104,7 @@ class WhoAmI extends Component {
     const { name, surname, link } = this.props;
     const { position, years } = this.state;
     return (
-       <>
+       <EmpItem active>
       
     {/* <div className="App"> */}
         {/* <h1>My name is {props.name}, surmane - {props.surname} </h1> */}
@@ -82,13 +114,13 @@ class WhoAmI extends Component {
       {/* <h1>My name is {name.firstName}, surmane - {surname} </h1> */}
   
         {/* подія з методом nextYear-- назва методу а не виклик */}
-         <button onClick={this.nextYear}>{this.state.text}</button> 
+         <Button onClick={this.nextYear}>{this.state.text}</Button> 
         {/* <button onClick={() => this.nextYear()}>{this.state.text}</button> */}
         {/* Викликаємо функцію */}
-        <h1>My name is {name},
+        <Headers>My name is {name},
           surmane - {surname},
           age - {years},
-          position - {position}</h1>
+          position - {position}</Headers>
         <a href={link}> My profile</a>
         <form >
           <span>Введіть посаду</span>
@@ -99,7 +131,7 @@ class WhoAmI extends Component {
         </form>
 
          {/*  </div>  */}
-         </> 
+         </EmpItem> 
     )
 }
 }
@@ -131,7 +163,7 @@ class Field extends Component{
     render() {
       const holder = 'Enter here';
       const styledField = {
-      width: '300px'
+        width: '300px'
       };
    return <input
    placeholder={holder}
@@ -162,13 +194,21 @@ function Btn() { // Компонент
 
 }
 
+//26----------Styled component
+const Wrapper = styled.div`
+   width: 600px;
+   margin 80px auto 0 auto;
+
+
+`;
 
 
 //App - це компонент-- функція яко може повертати JSX елементи
 // в середині себе мають якусь поведінку
 function App() {// Компонент з великої букви
   return (
-    <div className="App">
+    //div className="App"
+    <Wrapper>
       {/* StrictMode активуємо для перевірки <Header/>  */}
       {/* <StrictMode>
           <Header/> 
@@ -203,7 +243,7 @@ function App() {// Компонент з великої букви
           Learn React
         </a>
       </header> */}
-    </div>
+    </Wrapper>
   );
 }
 

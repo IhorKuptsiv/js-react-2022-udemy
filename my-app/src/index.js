@@ -6,7 +6,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 //import { Header } from './App';
+import { Button } from './App';
+import styled from 'styled-components';
 
+// щоб переназначити стилі
+const BigButton = styled(Button)`
+ margin:0 auto;
+ width: 245px;
+ text-align: center;
+`;
 
 //05. ЕЛЕМЕНТИ І КОМПОНЕНТИ
 //Елементи-структурні частинки компонентів: незмінні
@@ -22,6 +30,7 @@ ReactDOM.render(
 // для потомків (<App/>)
   <StrictMode>
  <App/>{/*//Компонент - з великої букви, елемент з малої букви */}
+<BigButton as="a">Відправити звіт </BigButton>
   </StrictMode>,
 
   document.getElementById('root')
