@@ -4,13 +4,14 @@ import './employers-add-form.scss';
 
 // const EmployersAddForm = () => {
 class EmployersAddForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    // constructor(props) {
+    //     super(props);
+        // this.state = {
+       state = {
             name: '',
             salary: ''
         }
-    }
+   // }
         onValueChange = (e) => {
             this.setState({
             [e.target.name] : e.target.value
@@ -25,7 +26,14 @@ class EmployersAddForm extends Component {
             name: '',
             salary:''
             })
-        }
+    }
+    
+    // ------28. static method
+    static onLog = () => {
+        console.log('Hey. I am static');
+    }
+    //властивості 
+    static logged = 'on';
 
     
     render() {
@@ -57,5 +65,10 @@ class EmployersAddForm extends Component {
         )
     }
 }
+
+// -------28.  static method 
+EmployersAddForm.onLog();
+// властивості
+console.log(EmployersAddForm.logged);
 
 export default EmployersAddForm;
